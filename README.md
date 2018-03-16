@@ -1,5 +1,7 @@
 # GraphStack
 
+> Work in progress and some links are broken!
+
 GraphStack is a NodeJS framework that helps you to create scalable, maintainable, extensible, declarative and fast 
 [GraphQL](https://graphql.org/)-based server applications.
 It perfectly fits any architecture and scale you choose - from monoliths to microservices, from small to enterprise apps. 
