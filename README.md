@@ -20,7 +20,7 @@ GraphStack provides you following features:
 * User input validation framework with ability to use any validation library
 * User authorization and access control framework
 * Modules framework for large and scalable applications
-* Integration with [TypeORM](https://typeorm.io/) and ability to use any other ORM or database source
+* Integration with [TypeORM](http://typeorm.io/) and ability to use any other ORM or database source
 * Automatic database relations resolver
 * Automatic transaction wrapper for your mutations
 * [Powerful service container](https://github.com/typestack/typedi) for code organization and seamless testing
@@ -48,18 +48,17 @@ graphstack init --name my-project --typescript
 
 ## Documentation
 
-* [JavaScript documentation](https://graphstack.io/?lang=javascript)
-* [JavaScript samples](https://github.com/graphstack/graphstack/tree/master/sample/javascript)
+* [JavaScript documentation](http://graphstack.io/?lang=javascript)
+* [JavaScript samples](https://github.com/graphframework/graphstack/tree/master/sample/javascript)
 
-
-* [TypeScript documentation](https://graphstack.io/?lang=typescript)
-* [TypeScript samples](https://github.com/graphstack/graphstack/tree/master/sample/typescript)
+* [TypeScript documentation](http://graphstack.io/?lang=typescript)
+* [TypeScript samples](https://github.com/graphframework/graphstack/tree/master/sample/typescript)
 
 ## Links
 
-* [JavaScript example project](https://github.com/graphstack/javascript-example)
-* [TypeScript example project](https://github.com/graphstack/typescript-example)
+* [JavaScript example project](https://github.com/graphframework/javascript-example)
+* [TypeScript example project](https://github.com/graphframework/typescript-example)
 
 ## Contributing
 
-Want to contribute? GraphStack is opened for any contributions, just create a [github issue](https://github.com/graphstack/graphstack/issues/new)!
+Want to contribute? GraphStack is opened for any contributions, just create a [github issue](https://github.com/graphframework/graphstack/issues/new)!

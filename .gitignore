@@ -3,7 +3,9 @@
 build/
 coverage/
 node_modules/
+temp/
 ormconfig.json
+config.json
 ormlogs.log
 npm-debug.log
 /test/github-issues/799/tmp/*

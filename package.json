@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/graphstack/graphstack.git"
+    "url": "https://github.com/graphframework/graphstack.git"
   },
   "bugs": {
-    "url": "https://github.com/graphstack/graphstack/issues"
+    "url": "https://github.com/graphframework/graphstack/issues"
   },
   "main": "index.js",
   "tags": [
