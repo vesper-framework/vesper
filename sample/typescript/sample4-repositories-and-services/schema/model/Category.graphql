@@ -1,0 +1,5 @@
+type Category {
+    id: Int
+    name: String
+    posts: [Post]
+}

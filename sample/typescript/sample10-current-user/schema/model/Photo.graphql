@@ -1,0 +1,5 @@
+type Photo {
+    id: Int
+    title: String
+    filename: String
+}

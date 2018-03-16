@@ -1,0 +1,6 @@
+type Post {
+    id: Int
+    title: String
+    text: String
+    likes(owner: String): Int
+}

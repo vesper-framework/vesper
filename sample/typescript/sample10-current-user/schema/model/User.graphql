@@ -1,0 +1,5 @@
+type Photo {
+    id: Int
+    firstName: String
+    lastName: String
+}

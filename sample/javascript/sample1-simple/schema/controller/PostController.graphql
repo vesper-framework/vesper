@@ -1,0 +1,9 @@
+type Query {
+    posts: [Post]
+    post(id: Int): Post
+}
+
+type Mutation {
+    postSave(id: Int, title: String, text: String): Post
+    postDelete(id: Int): Boolean
+}

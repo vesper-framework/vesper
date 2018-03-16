@@ -1,0 +1,9 @@
+type Query {
+    users: [User]
+    user(id: Int): User
+}
+
+type Mutation {
+    userSave(id: Int, firstName: String, lastName: String): User
+    userDelete(id: Int): Boolean
+}

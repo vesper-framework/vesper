@@ -1,0 +1,12 @@
+type Query {
+    messages: [Message]
+}
+
+type Subscription {
+    messageSent(me: Int): Message
+}
+
+type Mutation {
+    messageSave(id: Int, receiver: Int, text: String): Message
+    messageDelete(id: Int): Boolean
+}

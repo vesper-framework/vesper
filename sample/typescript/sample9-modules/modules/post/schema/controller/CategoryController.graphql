@@ -1,0 +1,8 @@
+type Query {
+    categories: [Category]
+    category(id: Int): Category
+}
+
+type Mutation {
+    categorySave(id: Int, name: String): Category
+}
