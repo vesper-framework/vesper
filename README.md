@@ -50,7 +50,6 @@ graphstack init --name my-project --typescript
 
 * [JavaScript documentation](http://graphstack.io/?lang=javascript)
 * [JavaScript samples](https://github.com/graphframework/graphstack/tree/master/sample/javascript)
-
 * [TypeScript documentation](http://graphstack.io/?lang=typescript)
 * [TypeScript samples](https://github.com/graphframework/graphstack/tree/master/sample/typescript)
 
