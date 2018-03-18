@@ -1,7 +1,7 @@
 {
   "name": "graphstack",
   "private": true,
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "GraphQL Framework for TypeScript and JavaScript",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -51,7 +51,7 @@
     "reflect-metadata": "^0.1.12",
     "subscriptions-transport-ws": "^0.9.6",
     "typedi": "^0.7.1",
-    "typeorm": "^0.2.0-alpha.27",
+    "typeorm": "^0.2.0-alpha.28",
     "yargonaut": "^1.1.2",
     "yargs": "^9.0.1"
   },

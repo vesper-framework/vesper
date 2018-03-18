@@ -27,6 +27,7 @@ GraphStack provides you following features:
 * Automatic transaction wrapper for your mutations
 * [Powerful service container](https://github.com/typestack/typedi) for code organization and seamless testing
 * Ability to use model interfaces across backend and frontend
+* Uses Express and Apollo Server and you have all power of these tools
 
 And more...
 
@@ -57,8 +58,8 @@ graphstack init --name my-project --typescript
 
 ## Links
 
-* [JavaScript example project](https://github.com/graphframework/javascript-example)
-* [TypeScript example project](https://github.com/graphframework/typescript-example)
+* [JavaScript example project](https://github.com/graphframework/javascript-simple-example)
+* [TypeScript example project](https://github.com/graphframework/typescript-simple-example)
 
 ## Contributing
 

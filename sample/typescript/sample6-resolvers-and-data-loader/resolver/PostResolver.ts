@@ -9,7 +9,7 @@ export class PostResolver implements ResolverInterface<Post> {
     constructor(private entityManager: EntityManager) {
     }
 
-    @Resolve({ many: true })
+    @Resolve()
     async categoryNames(posts: Post[]) {
         const postIds = posts.map(post => post.id);
         const categories = await this.entityManager
