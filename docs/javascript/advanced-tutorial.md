@@ -5,11 +5,56 @@
 This guide extends [getting started](./getting-started.md) guide and 
 teach you how to add relations and resolvers in your application.
 
+* [Controller args](#controller-args)
 * [Adding relations](#adding-relations)
 * [Creating a Resolver](#creating-a-resolver)
-* [Resolver and DataLoader](#resolver-and-data-loader)
+* [Resolver and DataLoader](#resolver-and-dataloader)
 * [Using service container](#using-service-container)
 * [Validating input arguments](#validating-input-arguments)
+
+### Controller args
+
+For the following GraphQL query args:
+
+```graphql
+type Query {
+    posts(limit: Int, offset: Int, sortBy: String): [Post]
+}
+```
+
+Args are being passed as a first parameter in your controller action:
+
+```javascript
+import {EntityManager} from "typeorm";
+import {Post} from "../entity/Post";
+
+export class PostController {
+
+    constructor(container) {
+        this.entityManager = container.get(EntityManager);
+    }
+
+    // serves "posts: [Post]" requests
+    // "args" variable will contain all arguments - limit, offset and sortBy
+    posts(args) {
+
+        let findOptions = {};
+        if (args.limit)
+            findOptions.take = args.limit;
+        if (args.offset)
+            findOptions.skip = args.offset;
+        if (args.sortBy === "last")
+            findOptions.order = { "id": "DESC" };
+        if (args.sortBy === "name")
+            findOptions.order = { "name": "ASC" };
+
+        return this.entityManager.find(Post, findOptions);
+    }
+    
+    // ...
+    
+}
+```
 
 ### Adding relations
 
@@ -67,7 +112,7 @@ And change `src/entity/Post.js` entity:
 ```javascript
 import {EntitySchema} from "typeorm";
 
-export const Category = new EntitySchema({
+export const Post = new EntitySchema({
     name: "Post",
     columns: {
         id: {
@@ -337,4 +382,5 @@ Then you need to register validator for action you need:
 
 Validators are regular services and you can inject any other service using constructor injection.
 
+At this point you should already know a 90% of GraphStack framework and you are ready to start creating amazing backends using it.
 Example repository for this sample is available [here](https://github.com/graphframework/javascript-advanced-example).

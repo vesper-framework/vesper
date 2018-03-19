@@ -58,9 +58,11 @@ graphstack init --name my-project --typescript
 
 ## Links
 
-* [JavaScript example project](https://github.com/graphframework/javascript-simple-example)
-* [TypeScript example project](https://github.com/graphframework/typescript-simple-example)
+* [JavaScript simple example project](https://github.com/graphframework/javascript-simple-example)
+* [JavaScript advanced example project](https://github.com/graphframework/javascript-advanced-example)
+* [TypeScript simple example project](https://github.com/graphframework/typescript-simple-example)
+* [TypeScript advanced example project](https://github.com/graphframework/typescript-advanced-example)
 
 ## Contributing
 
-Want to contribute? GraphStack is opened for any contributions, just create a [github issue](https://github.com/graphframework/graphstack/issues/new)!
+Want to contribute? GraphStack is opened for any contributions, just create a new [github issue](https://github.com/graphframework/graphstack/issues/new)!

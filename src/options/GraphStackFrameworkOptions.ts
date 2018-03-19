@@ -31,13 +31,22 @@ export interface GraphStackFrameworkOptions extends SchemaBuilderOptions {
     graphQLRoute?: string;
 
     /**
-     * Route used for GraphQL controllers.
+     * Route used for GraphiQL.
      * By default is equal to "/graphiql".
      *
-     * You can explicitly disable GraphIQL by setting false option.
-     * Its enabled only if NODE_ENV is not equal to "prod".
+     * By default is disabled because playground is used.
+     * You can explicitly enable it by setting this value to true.
      */
     graphIQLRoute?: string|boolean;
+
+    /**
+     * Route used for GraphQL playground.
+     * This is an alternative to GraphiQL.
+     * By default route equal to "/playground".
+     * Its enabled only if NODE_ENV is not equal to "prod".
+     * You can explicitly disable it by setting it to false.
+     */
+    playground?: string|boolean;
 
     /**
      * Indicates if cors are enabled.

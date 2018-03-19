@@ -207,7 +207,7 @@ Learn more about `ormconfig` in [TypeORM documentation](http://typeorm.io/#/usin
 
 Now we only need to bootstrap our GraphStack application. Let's create a `src/index.ts` file:
 
-```js
+```typescript
 import {bootstrap} from "graphstack";
 import {PostController} from "./controller/PostController"; 
 import {Post} from "./entity/Post"; 
@@ -222,8 +222,8 @@ bootstrap({
     ],
     schemas: [__dirname + "/schema/**/*.graphql"]
 }).then(() => {
-    console.log("Your app is up and running on http://localhost:3000 . " +
-                "You can use GraphiQL in development mode on http://localhost:3000/graphiql");
+    console.log("Your app is up and running on http://localhost:3000. " +
+                "You can use playground in development mode on http://localhost:3000/playground");
     
 }).catch(error => {
     console.error(error.stack ? error.stack : error);
@@ -256,16 +256,66 @@ tsc && node ./src/index.js
 If you don't have `tsc` available then simply install typescript compiler (`npm i typescript -g`).
 
 That's it, your app is ready! 
-GraphStack provides you GraphiQL out of the box in the development mode, you can access it via:
+GraphStack provides you [GraphQL Playground](https://github.com/graphcool/graphql-playground) out of the box in the development mode, you can access it via:
 
 ```
-http://localhost:3000/graphiql
+http://localhost:3000/playground
 ```
 
 Run following queries to test your new GraphQL API:
 
-```graphql
+#### Query all posts
 
+```graphql
+query {
+  posts {
+    id
+    title
+  }
+}
+```
+
+#### Query post by id
+
+```graphql
+query {
+  post(id: 1) {
+    id
+    title
+  }
+}
+```
+
+#### Insert a new post
+
+```graphql
+mutation {
+  postSave(title: "First post", text: "about first post") {
+    id
+    title
+    text
+  }
+}
+```
+
+#### Update exist post
+
+```graphql
+mutation {
+  postSave(id: 1, title: "First post", text: "about first post") {
+    id
+    title
+    text
+  }
+}
+```
+
+#### Delete post
+
+```graphql
+mutation {
+  postDelete(id: 1)
+}
 ```
 
 Now you are ready to read a more [advanced tutorial](./advanced-tutorial.md).

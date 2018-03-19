@@ -10,6 +10,7 @@ import {Container} from "typedi";
 import * as fs from "fs";
 import {SubscriptionServer} from "subscriptions-transport-ws";
 import {execute, subscribe} from "graphql";
+import expressPlayground from "graphql-playground-middleware-express";
 
 const apolloUploadExpress = require("apollo-upload-server").apolloUploadExpress;
 
@@ -103,12 +104,23 @@ export class GraphStackFramework {
                 }
 
                 // register GraphIQL
-                if (this.options.graphIQLRoute !== false && process.env.NODE_ENV !== "prod") {
+                if (this.options.graphIQLRoute === true || typeof this.options.graphIQLRoute === "string") {
                     const graphIQLRoute = (this.options.graphIQLRoute && typeof this.options.graphIQLRoute === "string") ? this.options.graphIQLRoute : "/graphiql";
                     const graphIOptions: any = { endpointURL: graphQLRoute };
                     if (hasSubscriptions)
                         graphIOptions.subscriptionsEndpoint = `ws://localhost:${this.options.port}/subscriptions`;
                     this.application.use(graphIQLRoute, graphiqlExpress(graphIOptions));
+                }
+
+                // register playground
+                if (this.options.playground === true ||
+                    typeof this.options.graphIQLRoute === "string" ||
+                    (this.options.playground === undefined && process.env.NODE_ENV !== "prod")) {
+                    const playgroundRoute = (this.options.playground && typeof this.options.playground === "string") ? this.options.playground : "/playground";
+                    const graphIOptions: any = { endpoint: graphQLRoute };
+                    if (hasSubscriptions)
+                        graphIOptions.subscriptionsEndpoint = `ws://localhost:${this.options.port}/subscriptions`;
+                    this.application.use(playgroundRoute, expressPlayground(graphIOptions));
                 }
 
                 ok();

@@ -1,15 +1,71 @@
 ## Advanced Tutorial
 
-> This guide is for TypeScript users. JavaScript version is [here](../javascript/getting-started.md).
+> This guide is for TypeScript users. JavaScript version is [here](../javascript/advanced-tutorial.md).
 
 This guide extends [getting started](./getting-started.md) guide and 
 teach you how to add relations and resolvers in your application.
 
+* [Controller args](#controller-args)
 * [Adding relations](#adding-relations)
 * [Creating a Resolver](#creating-a-resolver)
-* [Resolver and DataLoader](#resolver-and-data-loader)
+* [Resolver and DataLoader](#resolver-and-dataloader)
 * [Using service container](#using-service-container)
 * [Validating input arguments](#validating-input-arguments)
+
+### Controller args
+
+For the following GraphQL query args:
+
+```graphql
+type Query {
+    posts(limit: Int, offset: Int, sortBy: String): [Post]
+}
+```
+
+Let's create `src/args/PostsArgs.ts` interface:
+
+```typescript
+export interface PostsArgs {
+    limit?: number;
+    offset?: number;
+    sortBy?: string;
+}
+```
+
+Args are being passed as a first parameter in your controller action:
+
+```typescript
+import {Controller, Query} from "graphstack";
+import {EntityManager, FindManyOptions} from "typeorm";
+import {PostsArgs} from "../args/PostsArgs";
+import {Post} from "../entity/Post";
+
+@Controller()
+export class PostController {
+
+    constructor(private entityManager: EntityManager) {
+    }
+
+    @Query()
+    posts(args: PostsArgs) {
+
+        let findOptions: FindManyOptions = {};
+        if (args.limit)
+            findOptions.take = args.limit;
+        if (args.offset)
+            findOptions.skip = args.offset;
+        if (args.sortBy === "last")
+            findOptions.order = { "id": "DESC" };
+        if (args.sortBy === "name")
+            findOptions.order = { "name": "ASC" };
+
+        return this.entityManager.find(Post, findOptions);
+    }
+    
+    // ...
+    
+}
+```
 
 ### Adding relations
 
@@ -139,10 +195,13 @@ type Post {
 ```
 
 You need to create a resolver class for your model.
+
+Before creating a new resolver add `categoryNames: string[]` property to your `Post` entity.
+
 Create `src/resolver/PostResolver.ts` file and put following content:
 
 ```typescript
-import {Resolver, ResolverInterface} from "graphstack";
+import {Resolver, Resolve, ResolverInterface} from "graphstack";
 import {EntityManager} from "typeorm";
 import {Post} from "../entity/Post";
 import {Category} from "../entity/Category";
@@ -153,7 +212,8 @@ export class PostResolver implements ResolverInterface<Post> {
     constructor(private entityManager: EntityManager) {
     }
 
-    categoryNames(post) {
+    @Resolve()
+    categoryNames(post: Post) {
         return this.entityManager
             .createQueryBuilder(Category, "category")
             .innerJoin("category.posts", "post", "post.id = :postId", { postId: post.id })
@@ -194,6 +254,7 @@ query {
     }
 }
 ```
+
 ### Resolver and DataLoader
 
 In previous section we created resolver that resolves `categoryNames` property.
@@ -299,15 +360,16 @@ All services has a request-scope by default.
 
 All user input must be validated. 
 GraphStack provides you a way to validate all user input (args) elegant way.
-Create a `src/validator/PostArgsValidator.ts` file with following contents:
+Create a `src/validator/PostsArgsValidator.ts` file with following contents:
 
 ```typescript
 import {Service} from "typedi";
+import {PostsArgs} from "../args/PostsArgs";
 
 @Service()
 export class PostsArgsValidator {
     
-    validate(args) {
+    validate(args: PostsArgs) {
        if (args.limit !== undefined && args.limit > 100)
            throw new Error(`Limit cannot be more then 100.`);
     
@@ -328,7 +390,7 @@ Then you need to register validator for action you need:
 
 ```typescript
 import {Controller, Query, ArgsValidator} from "graphstack";
-import {EntityManager} from "typeorm";
+import {EntityManager, FindManyOptions} from "typeorm";
 import {Post} from "../entity/Post";
 import {PostsArgsValidator} from "../validator/PostsArgsValidator";
 
@@ -340,8 +402,19 @@ export class PostController {
 
     @Query()
     @ArgsValidator(PostsArgsValidator)
-    posts() {
-        return this.entityManager.find(Post);
+    posts(args) {
+
+        let findOptions: FindManyOptions = {};
+        if (args.limit)
+            findOptions.take = args.limit;
+        if (args.offset)
+            findOptions.skip = args.offset;
+        if (args.sortBy === "last")
+            findOptions.order = { "id": "DESC" };
+        if (args.sortBy === "name")
+            findOptions.order = { "name": "ASC" };
+
+        return this.entityManager.find(Post, findOptions);
     }
     
     // ...

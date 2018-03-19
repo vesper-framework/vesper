@@ -1,3 +1,8 @@
+declare global {
+  interface RequestInit {
+  }
+}
+
 import "reflect-metadata";
 import {MetadataArgsStorage} from "./metadata-args/MetadataArgsStorage";
 import {GraphStackFramework} from "./GraphStackFramework";
@@ -10,6 +15,10 @@ import {HttpQueryError, runHttpQuery} from "apollo-server-core";
 import {GraphQLSchema} from "graphql";
 import {CurrentRequest} from "./token/CurrentRequest";
 import {CurrentResponse} from "./token/CurrentResponse";
+
+// -------------------------------------------------------------------------
+// Main exports
+// -------------------------------------------------------------------------
 
 // -------------------------------------------------------------------------
 // Main exports

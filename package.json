@@ -1,7 +1,7 @@
 {
   "name": "graphstack",
   "private": true,
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "GraphQL Framework for TypeScript and JavaScript",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -29,6 +29,11 @@
     "graphstack": "./cli.js"
   },
   "typings": "index.d.ts",
+  "peerDependencies": {
+    "reflect-metadata": "^0.1.12",
+    "typedi": "^0.7.1",
+    "typeorm": "^0.2.0-alpha.28"
+  },
   "dependencies": {
     "@types/body-parser": "^1.16.8",
     "@types/cors": "^2.8.3",
@@ -45,6 +50,7 @@
     "express": "^4.16.2",
     "glob": "^7.0.5",
     "graphql": "^0.11.7",
+    "graphql-playground-middleware-express": "^1.5.7",
     "graphql-subscriptions": "^0.5.8",
     "graphql-tools": "^2.20.0",
     "merge-graphql-schemas": "^1.4.0",
