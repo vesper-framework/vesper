@@ -1,4 +1,4 @@
-## Getting Started
+# Getting Started
 
 > This guide is for JavaScript users. TypeScript version is [here](../typescript/getting-started.md).
 

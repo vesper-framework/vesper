@@ -1,4 +1,4 @@
-## Advanced Tutorial
+# Advanced Tutorial
 
 > This guide is for JavaScript users. TypeScript version is [here](../typescript/advanced-tutorial.md).
 
