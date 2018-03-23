@@ -252,8 +252,8 @@ export const User = new EntitySchema({
     name: "User",
     columns: {
         id: {
-            type: ${ database === "mongodb" ? "ObjectID" : "Number" },
-            ${ database === "mongodb" ? "objectId: true" : "primary: true" },
+            ${ database === "mongodb" ? "objectId: true," : "type: Number," }
+            primary: true,
             generated: true
         },
         firstName: {
@@ -289,10 +289,11 @@ export class Photo {
 
     @Column()
     filename: string;
-${ database !== "mongodb" ? `
-    @Column()
-    userId: number;
     
+    @Column()
+    userId: ${ database === "mongodb" ? "string" : "number" };
+    
+${ database !== "mongodb" ? `
     @ManyToOne(() => User, user => user.photos)
     user: User;
 ` : ""}
@@ -311,8 +312,8 @@ export const Photo = new EntitySchema({
     name: "Photo",
     columns: {
         id: {
-            type: ${ database === "mongodb" ? "ObjectID" : "Number" },
-            ${ database === "mongodb" ? "objectId: true" : "primary: true" },
+            ${ database === "mongodb" ? "objectId: true," : "type: Number," }
+            primary: true,
             generated: true
         },
         filename: {
@@ -653,7 +654,7 @@ bootstrap({
     schemas: [__dirname + "/schema/**/*.graphql"]
 }).then(() => {
     console.log("Your app is up and running on http://localhost:3000. " +
-        "You can use playground in development mode on http://localhost:3000/graphiql");
+        "You can use playground in development mode on http://localhost:3000/playground");
 }).catch(error => {
     console.error(error.stack ? error.stack : error);
 });
@@ -854,10 +855,9 @@ query UserListWithPhotosQuery {
       filename
     }
   }
-}
+}` : ""} 
 \`\`\`
-
-` : ""} `;
+`;
         return template;
     }
 
