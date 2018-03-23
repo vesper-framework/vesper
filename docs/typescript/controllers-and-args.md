@@ -4,7 +4,7 @@
 
 Controllers serve your root queries, mutations and subscriptions.
 
-For the following Query:
+For the following Query and Mutation:
 
 ```graphql
 type Query {
@@ -18,10 +18,10 @@ type Mutation {
 }
 ```
 
-You create following controller:
+You create a following controller:
 
 ```typescript
-import {Controller, Query, Mutation} from "graphstack";
+import {Controller, Query, Mutation} from "scepter";
 
 @Controller()
 export class PostController {
@@ -40,7 +40,7 @@ export class PostController {
 
     @Mutation()
     postSave(args) {
-        // serves "postSave(id: Int, title: String, text: String): Post" requests
+        // serves "postSave(id: Int, title: String, text: String): Post"
         // save post and return it
     }
 
@@ -55,7 +55,7 @@ export class PostController {
 
 Best practice to structure your controllers - a single controller per model.
 
-Next, you must register controller inside bootstrap file:
+To activate controller you must register it inside bootstrap file:
 
 ```typescript
 bootstrap({
@@ -66,8 +66,8 @@ bootstrap({
 });
 ```
 
-Note, query/mutation/subscription name matches controller method name.
-If in some cases you'll need to use different method name, you can specify it:
+Note, query / mutation / subscription name matches controller method name.
+If for some reason you'll need to use different method name, you can specify query name:
 
 ```typescript
 @Query({ name: "posts" })
@@ -80,12 +80,15 @@ allPosts() {
 But best practice is to have same controller method name and query/mutation name.
 Use different method name only when you really need it.
 
-Controller methods accepts 3 parameters: `args`, `context` and `info`.
-`args` contains all arguments sent by a client.
+Controller methods accepts 3 parameters: `args`, `context` and `info`:
+
+* `args` contains all arguments sent by a client
+* `context` is used to share some state in context of a single request
+* `info` contains GraphQL query information
 
 To make your args type-safe you'll need to define its type, 
 and its recommended to create an interface for this purpose and put it into `args` directory.
-Its recommended to name each controller method args as "ActionNameArgs", 
+Its recommended to name each controller method args as "QueryNameArgs", 
 for example for `postSave` method you can create `PostSaveArgs` interface in a `PostSaveArgs.ts` file:
 
 ```typescript
@@ -96,11 +99,10 @@ export interface PostSaveArgs {
     text?: string;
 
 }
-``` 
+```
 
-Best practice is to have a single interface per-file.
-
-If you use TypeORM mutations are wrapped into transactions by default, you can disable this behaviour this way:
+If you use TypeORM, all mutations are wrapped into transactions.
+You can disable this behaviour this way:
 
 ```typescript
 @Mutation({ transaction: false })
@@ -110,7 +112,8 @@ postSave(args) {
 }
 ```
 
-Each controller is a service. It means you have a `container` instance and you can inject any service you have:
+Each controller is a service. 
+It means you can inject any service using dependency injection framework:
 
 ```typescript
 export class PostController {
@@ -122,4 +125,4 @@ export class PostController {
 }
 ```
 
-It also means that your controllers are easily testable.
+It also means your controllers are easily testable.

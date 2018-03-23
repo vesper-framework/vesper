@@ -2,8 +2,12 @@
 
 > This guide is for TypeScript users. JavaScript version is [here](../javascript/services-and-repositories.md).
 
-Services is the place for all your app's logic, 
-code that is not directly related to controllers and resolvers must be extracted out of them into services.
+All your application logic that is not directly related to controllers or resolvers 
+can be extracted into separate classes called "services".
+Services can be grouped by types, 
+for example you can create "repository" services that will have a database queries,
+you can create "manager" services that manage some business logic,
+you can create "utility" services with utility functions.
 
 Services allow you to keep your code clean and follow separation of concerns principle.
 Here is an example how to create a simple service:
@@ -25,7 +29,7 @@ export class PasswordEncryptor {
 Then you can use it in any other service (including controllers, resolvers, validators, etc.):
 
 ```typescript
-import {Controller, Mutation} from "graphstack";
+import {Controller, Mutation} from "scepter";
 import {EntityManager} from "typeorm";
 import {User} from "../entity/User";
 import {UserSaveArgs} from "../args/UserSaveArgs";
@@ -48,7 +52,7 @@ export class UserController {
 }
 ```
 
-GraphStack uses [TypeDI](https://github.com/typestack/typedi) service container - a very powerful dependency injection tool.
+Scepter uses [TypeDI](https://github.com/typestack/typedi) service container - a powerful dependency injection tool.
 All your services are scoped by user request by default.
 
 Repositories are services, just like controllers are resolvers are.

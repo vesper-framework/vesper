@@ -46,7 +46,7 @@ and TypeORM will create you a following table:
 +-------------+--------------+----------------------------+
 | id          | int(11)      | PRIMARY KEY AUTO_INCREMENT |
 | title       | varchar(255) |                            |
-| filename    | varchar(255) |                            |
+| text        | varchar(255) |                            |
 +-------------+--------------+----------------------------+
 ```
 
@@ -77,7 +77,7 @@ export class PostController {
 
     postDelete({ id }) {
         return this.entityManager
-            .remove({ id: id })
+            .remove(Post, { id: id })
             .then(() => true);
     }
 

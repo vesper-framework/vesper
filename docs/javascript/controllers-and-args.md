@@ -4,7 +4,7 @@
 
 Controllers serve your root queries, mutations and subscriptions.
 
-For the following Query:
+For the following Query and Mutation:
 
 ```graphql
 type Query {
@@ -18,7 +18,7 @@ type Mutation {
 }
 ```
 
-You create following controller:
+You create a following controller:
 
 ```javascript
 export class PostController {
@@ -34,7 +34,7 @@ export class PostController {
     }
 
     postSave(args) {
-        // serves "postSave(id: Int, title: String, text: String): Post" requests
+        // serves "postSave(id: Int, title: String, text: String): Post"
         // save post and return it
     }
 
@@ -48,6 +48,7 @@ export class PostController {
 
 Best practice to structure your controllers - a single controller per model.
 
+To activate controller you must register it inside bootstrap file:
 Next, you must register controller and all query/mutation/subscription methods inside bootstrap file:
 
 ```javascript
@@ -62,8 +63,8 @@ bootstrap({
 });
 ```
 
-Note, query/mutation/subscription name matches controller method name.
-If in some cases you'll need to use different method name, you can specify it:
+Note, query / mutation / subscription name matches controller method name.
+If for some reason you'll need to use different method name, you can specify query name:
 
 ```javascript
 { controller: PostController, name: "posts", action: "allPosts", type: "query" }
@@ -72,10 +73,14 @@ If in some cases you'll need to use different method name, you can specify it:
 But best practice is to have same controller method name and query/mutation name.
 Use different method name only when you really need it.
 
-Controller methods accepts 3 parameters: `args`, `context` and `info`.
-`args` contains all arguments sent by a client.
+Controller methods accepts 3 parameters: `args`, `context` and `info`:
 
-If you use TypeORM mutations are wrapped into transactions by default, you can disable this behaviour this way:
+* `args` contains all arguments sent by a client
+* `context` is used to share some state in context of a single request
+* `info` contains GraphQL query information
+
+If you use TypeORM, all mutations are wrapped into transactions.
+You can disable this behaviour this way:
 
 ```javascript
 { controller: PostController, action: "postSave", type: "mutation", transaction: false }
@@ -94,4 +99,4 @@ export class PostController {
 }
 ```
 
-It also means that your controllers are easily testable.
+It also means your controllers are easily testable.

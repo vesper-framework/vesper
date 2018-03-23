@@ -102,10 +102,10 @@ bootstrap({
 
 Now `categoryNames` method will be executed only when client will request post's categoryNames.
 
-Code inside `categoryNames` method will be executed as many times as much posts we load each time.
+Code inside `categoryNames` method will be executed as many times as many posts we load.
+This can lead into performance issues if you have a costly operation inside your resolver method.
 To address this issue GraphQL suggests to use [data-loader](https://github.com/facebook/dataloader) library.
-GraphStack provides a powerful abstraction layer that prevents you to use it directly and implement what you want - 
-load `categoryNames` in a single request for all requested posts.
+Scepter provides a powerful abstraction layer that prevents you to use it directly and reduce a boilerplate code.
 
 Let's change our `PostResolver` class:
 
@@ -158,4 +158,4 @@ categoryNames(posts, args, context, info) {
 }
 ```
 
-You can use validation and authorization features of GraphStack just like you can use them on controllers.
+You can use validation and authorization features of Scepter just like you can use them on controllers.

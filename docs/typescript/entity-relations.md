@@ -2,6 +2,9 @@
 
 > This guide is for TypeScript users. JavaScript version is [here](../javascript/entity-relations.md).
 
+Using TypeORM you can create one-to-one, one-to-many, many-to-one and many-to-many relations between your entities.
+Scepter automatically resolves all your relations when you request them. 
+
 Let's say you have a `Post` model:
 
 ```graphql
@@ -23,7 +26,7 @@ type Category {
 }
 ```
 
-If you are using TypeORM then you define two entities - `Post` and `Category` and create a many-to-many relation between them:
+With TypeORM you define two entities - `Post` and `Category` and create a many-to-many relation between them:
 
 ```typescript
 import {Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
@@ -69,7 +72,7 @@ export class Category {
 }
 ```
 
-GraphStack provides an embedded entity relation resolver, 
+Scepter provides an automatic entity relation resolver, 
 so when you request posts with categories:
 
 ```graphql
@@ -102,6 +105,4 @@ query {
 }
 ```
 
-The data will be automatically resolved for you by GraphStack.
-
-To learn more about entity relations refer to [TypeORM documentation](http://typeorm.io/#/relations).
+The data is automatically returned to the client. To learn more about entity relations refer to [TypeORM documentation](http://typeorm.io/#/relations).

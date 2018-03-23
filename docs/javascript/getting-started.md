@@ -2,50 +2,52 @@
 
 > This guide is for JavaScript users. TypeScript version is [here](../typescript/getting-started.md).
 
-This guide will teach you how to create a simple CRUD application using GraphStack.
-Let's say we want to create a "post" application, where users can create / read / update and delete posts.
+This guide will teach you how to create a simple CRUD application using Scepter.
+We will create a "post" application, where users can create / read / update and delete posts.
 
 * [Initial setup](#initial-setup)
-* [Define GraphQL schema](#define-graphql-schema)
+* [Define  a GraphQL schema](#define-a-graphql-schema)
 * [Define a Database Model](#define-a-database-model)
 * [Creating a Controller](#creating-a-controller)
 * [Running application](#running-application)
+* [Working with application](#working-with-application)
 
 ### Initial setup
 
-Create a directory for the new project, create package.json inside (you can use `npm init` command) and install GraphStack:
+Create a directory for the new project with a package.json inside (you can use `npm init`) and install Scepter:
 
 ```
-npm i graphstack --save
+npm i scepter --save
 ```
 
-In this tutorial we'll use `sqlite` database, so install it as well:
+In this tutorial we will use `sqlite` database, so install it as well:
 
 ```
 npm i sqlite3 --save
 ```
 
-You can use any other database TypeORM supports, just follow [TypeORM documentation](http://typeorm.io).
+You can use any other database TypeORM supports,
+just follow [TypeORM documentation](http://typeorm.io) on how to setup them.
 
-Then create `src` directory, it will be our main working directory.
+Finally create `src` directory, it will be our main working directory.
 
-### Define GraphQL schema
+### Define a GraphQL schema
 
-First we create a `schema` directory inside `src` directory. 
-To keep a clean structure let's separate our root queries and models inside different directories.
-So, create `controller` and `model` directories inside `schema` directory:
+Create a `schema` directory inside `src` directory. 
+To keep a clean structure lets separate our root queries and models by different directories - 
+inside `controller` and `model`:
 
 ```
-- src/
-    - schema/
-        - controller/
-        - model/
+└── src
+    └── schema
+        ├── controller
+        └── model
 ```
 
 With following structure we'll be able to create directories for other types as well (inputs, categorized models) in the future.
 
 `controller` directory will contain your root queries and mutations, and `model` directory will contain your models. 
-Let's create a model first inside `schema/model/Post.graphql` file:
+Let's create a "Post" model inside `schema/model/Post.graphql` file:
 
 ```graphql
 type Post {
@@ -56,8 +58,7 @@ type Post {
 ```
 
 Defining GraphQL schemas inside `.graphql` files allows us to have them organized and easy to work with. 
-If `.graphql` format is not recognizable by your IDE then install a plugin if its available for your IDE.
-Now let's create a controller for our root queries inside `schema/controller/PostController.graphql` file:
+Next, create a schema for our root queries and mutations inside `schema/controller/PostController.graphql` file:
 
 ```graphql
 type Query {
@@ -75,15 +76,18 @@ Here, we added 4 root queries -
 
 * `posts: [Post]` - returns us all posts we have
 * `post(id: Int): Post` - returns us a single post by a requested post id
-* `postSave(id: Int, title: String, text: String): Post` - inserts a new post or updates exist post
+* `postSave(id: Int, title: String, text: String): Post` - inserts a new post or updates exist one
 * `postDelete(id: Int): Boolean` - deletes post by requested post id
 
-Our schemas are ready. Now let's provide implementation for them.
+Our schemas are ready. Next step is to provide implementation for them.
 
 ### Define a Database Model
 
-Our implementation starts with our database model `Post`. 
-Let's create a `Post` [entity](http://typeorm.io/#/entities) inside `src/entity/Post.js`:
+Since we want to store data inside sqlite database, 
+we need to create a database table for our models.
+To make TypeORM automatically create you a database table
+for your "Post" model you need to define an [entity](http://typeorm.io/#/entities). 
+Create a `src/entity/Post.js` file:
 
 ```javascript
 import {EntitySchema} from "typeorm";
@@ -106,8 +110,7 @@ export const Post = new EntitySchema({
 });
 ```
 
-As you can see we defined a `Post` entity with three columns - `id`, `title` and `text`. 
-TypeORM will create following table for us:
+Once we run our application TypeORM will create us a following table:
 
 ```shell
 +-------------+--------------+----------------------------+
@@ -115,14 +118,14 @@ TypeORM will create following table for us:
 +-------------+--------------+----------------------------+
 | id          | int(11)      | PRIMARY KEY AUTO_INCREMENT |
 | title       | varchar(255) |                            |
-| filename    | varchar(255) |                            |
+| text        | varchar(255) |                            |
 +-------------+--------------+----------------------------+
 ```
 
 To learn more about entities refer to [TypeORM documentation](http://typeorm.io).
 
 Now we'll be able to store our data in the database.
-Let's move to actual logic that will save and get this data from the database.
+Next step is to create logic that will save and get this data from the database.
 
 ### Creating a Controller
 
@@ -133,8 +136,8 @@ Previously we added 4 root GraphQL queries:
 * `postSave(id: Int, title: String, text: String): Post`
 * `postDelete(id: Int): Boolean`
 
-Logic that will handle those queries must be inside controllers.
-Create a `src/controller/PostController.js` file:
+Logic that will handle those queries must be defined inside controller.
+Create a new controller inside `src/controller/PostController.js` file:
 
 ```javascript
 import {EntityManager} from "typeorm";
@@ -165,49 +168,51 @@ export class PostController {
     // serves "postDelete(id: Int): Boolean" requests
     postDelete({ id }) {
         return this.entityManager
-            .remove({ id: id })
+            .remove(Post, { id: id })
             .then(() => true);
     }
 
 }
 ```
 
-`entityManager` is used to work with database. 
+EntityManager is a TypeORM object that is used to work with the database. 
 Learn more about it in [TypeORM documentation](http://typeorm.io/#/working-with-entity-manager).
 
-That's it! We have a controller that does what we need - it get us all posts, 
+That's it! We have a controller that does what we need - it gets us all posts, 
 get a single post by id, saves and removes posts.
 
-Now we need to create a configuration and bootstrap files that allow us to run all this magic. 
+Now we need to create a configuration and bootstrap files that will run all this magic. 
 
 ### Running application
 
-To use TypeORM you need to create `ormconfig.json` in the root of your application:
+To use TypeORM you need to create `ormconfig.json` file in the root of your application:
 
-````
-src/
-    ...
-ormconfig.json
-package.json
-````
+```
+├── src
+│   └── ...
+│   
+├── ormconfig.json
+└── package.json
+```
 
-And put following configuration:
+With following configuration:
 
 ```json
 {
   "type": "sqlite",
   "database": "database.sqlite",
-  "synchronize": true
+  "synchronize": true,
+  "logging": false
 }
 ```
 
-This will tell TypeORM to use SQLite database and store your data inside `./database.sqlite` file.
-Learn more about `ormconfig` in [TypeORM documentation](http://typeorm.io/#/using-ormconfig).
+This will tell TypeORM to use SQLite database and store your data inside `database.sqlite` file.
+Learn more about `ormconfig` from [TypeORM documentation](http://typeorm.io/#/using-ormconfig).
 
-Now we only need to bootstrap our GraphStack application. Let's create a `src/index.js` file:
+Now we only need to bootstrap our Scepter application. Let's create a `src/index.js` file:
 
 ```javascript
-import {bootstrap} from "graphstack";
+import {bootstrap} from "scepter";
 import {PostController} from "./controller/PostController"; 
 import {Post} from "./entity/Post"; 
 
@@ -222,7 +227,9 @@ bootstrap({
     entities: [
         Post
     ],
-    schemas: [__dirname + "/schema/**/*.graphql"]
+    schemas: [
+        __dirname + "/schema/**/*.graphql"
+    ]
 }).then(() => {
     console.log("Your app is up and running on http://localhost:3000. " +
                 "You can use playground in development mode on http://localhost:3000/playground");
@@ -231,15 +238,18 @@ bootstrap({
 });
 ```
 
-Here we told our app to run on `3000` port and we registered our controller, entity and GraphQL schemas.
-Now you can run our application:
+Here we told to the framework to register our controller, entity, GraphQL schemas and run app on port `3000`.
+Now you can run the application:
 
 ```
 node ./src/index.js
 ```
 
-That's it, your app is ready! 
-GraphStack provides you [GraphQL Playground](https://github.com/graphcool/graphql-playground) out of the box in the development mode, you can access it via:
+That's it, your app is up ready to serve your GraphQL client queries! 
+
+### Working with application
+
+Scepter provides you a [GraphQL Playground](https://github.com/graphcool/graphql-playground) out of the box in the development mode, you can access it via:
 
 ```
 http://localhost:3000/playground
@@ -302,5 +312,4 @@ mutation {
 ```
 
 Now you are ready to read a more [advanced tutorial](./advanced-tutorial.md).
-
 Example repository for this sample is available [here](https://github.com/graphframework/javascript-simple-example).

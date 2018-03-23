@@ -3,14 +3,14 @@
 > This guide is for JavaScript users. TypeScript version is [here](../typescript/modules.md).
 
 Once your project gets larger having everything in a single `src` directory may create a big mess for you.
-GraphStack provides you an abstraction called `module` to separate your different parts of business logic into modules.
+Scepter provides you an abstraction called `module` to separate your different parts of your application into modules.
 
 Let's create a `User` and `Photo` modules. 
 Create `src/user` and `src/photo` directories.
 Each directory must have its own entities, modules, controllers, schemas, etc.
 Each module must have its own "module" file.
 
-Create `src/user/UserModule.js` and put following contents:
+Create a `UserModule` class inside `src/user/UserModule.ts` file:
 
 ```javascript
 export class UserModule {
@@ -38,7 +38,7 @@ export class UserModule {
 }
 ```
 
-And create `src/photo/PhotoModule.js` and put following contents:
+Create a `PhotoModule` class inside `src/photo/PhotoModule.ts` file:
 
 ```javascript
 export class PhotoModule {

@@ -58,7 +58,10 @@ export class PostController {
 
 ### Adding relations
 
-Let's add a new model called `Category` and create a many-to-many relation between `Post` and `Category`.
+Using TypeORM you can create one-to-one, one-to-many, many-to-one and many-to-many relations between your entities.
+Scepter automatically resolves all your relations when you request them.
+
+Let's create a new model called `Category` and add a many-to-many relation between `Post` and `Category`.
 First, create a new `src/schemas/model/Category.graphql` schema file:
 
 ```graphql
@@ -138,19 +141,20 @@ export const Post = new EntitySchema({
 });
 ```
 
-And make sure to add entity in app bootstrap file (`src/index.js`):
+And make sure to register entity in app bootstrap file (`src/index.js`):
 
 ```javascript
-// ...
+bootstrap({
     entities: [
         Post,
         Category
     ]
-// ...
+    // ...
+});
 ```
 
 Now you'll be able to query post categories and category posts without any extra code written!
-GraphStack and TypeORM does all the magic for you.
+Scepter and TypeORM does all the magic for you.
 
 ```graphql
 query {
@@ -182,8 +186,8 @@ query {
 
 ### Creating a Resolver
 
-GraphStack provides you an elegant way to create resolvers for your models.
-Let's say you have `categoryNames` in your `Post` schema:
+Scepter provides you an elegant way to create resolvers for your models.
+Let's say you have `categoryNames` property in your `Post` schema:
 
 ```graphql
 type Post {
@@ -195,8 +199,13 @@ type Post {
 }
 ```
 
-You need to create a resolver class for your model.
-Create `src/resolver/PostResolver.js` file and put following content:
+
+Unlike `id`, `title` and `text` this property is not stored in your database, 
+and its value needs to be resolved only when client actually requests this data.
+It means we cannot simply set this property inside controller if its computation does affect performance.
+Here, resolvers come into the play.
+
+Create a resolver class inside `src/resolver/PostResolver.js` file:
 
 ```javascript
 import {EntityManager} from "typeorm";
@@ -222,19 +231,12 @@ export class PostResolver {
 And register it in bootstrap file (`src/index.js`):
 
 ```javascript
-{
-        // ...
-    controllers: [
-        // ...
-    ],
+bootstrap({
     resolvers: [
         { resolver: PostResolver, model: Post, methods: ["categoryNames"] },
     ],
-    entities: [
-        // ...
-    ],
     // ...
-}
+});
 ```
 
 Now you'll able to request it:
@@ -249,13 +251,16 @@ query {
     }
 }
 ```
+
+And code inside your resolver will be executed only when client requested `categoryNames` property.
+
 ### Resolver and DataLoader
 
-In previous section we created resolver that resolves `categoryNames` property.
-Code inside `categoryNames` method will be executed as many times as much posts we load each time.
+In previous section we created a resolver that resolves `categoryNames` property.
+Code inside `categoryNames` method will be executed as many times as many posts we load.
+This can lead into performance issues if you have a costly operation inside your resolver method.
 To address this issue GraphQL suggests to use [data-loader](https://github.com/facebook/dataloader) library.
-GraphStack provides a powerful abstraction layer that prevents you to use it directly and implement what you want - 
-load `categoryNames` in a single request for all requested posts.
+Scepter provides a powerful abstraction layer that prevents you to use it directly and reduce a boilerplate code.
 
 Let's change our `PostResolver.js` file:
 
@@ -290,35 +295,29 @@ export class PostResolver {
 And register this resolver method with `many: true` flag set:
 
 ```javascript
-{
-    // ...
-    controllers: [
-        // ...
-    ],
+bootstrap({
     resolvers: [
         { resolver: PostResolver, model: Post, methods: [{ methodName: "categoryNames", many: true }] },
     ],
-    entities: [
-        // ...
-    ],
     // ...
-}
+});
 ```
 
-Now `categoryNames` accepts an array of all posts and you can get all category names in a single database query.
+As you can see now `categoryNames` accepts an array of all posts for which we need to resolve the data. 
+This allowed us to return category names within a single database query.
 
 ### Using service container
 
-GraphStack provides you a [powerful service container](https://github.com/typestack/typedi) out of the box.
-This allows you to structure your code a better way and allows to easily unit-test your code.
+Scepter provides you a [powerful service container](https://github.com/typestack/typedi) out of the box.
+This allows you to structure your code a better way and easily unit-test your code.
 Let's create a `TextGenerator` class in a `src/service/TextGenerator.js` file:
-
 
 ```javascript
 export class TextGenerator {
 
     generate() {
-        // here you can generate text for your posts using any faker data library
+        // here you can generate text for your posts 
+        // using any faker data library
         return "";
     }
 
@@ -342,12 +341,12 @@ export class PostController {
 ```
 
 Controllers and resolvers are services as well. 
-All services has a request-scope by default.
+All services have a request-scope by default.
 
 ### Validating input arguments
 
 All user input must be validated. 
-GraphStack provides you a way to validate all user input (args) elegant way.
+Scepter provides you a way to validate all user input (args) elegant way.
 Create a `src/validator/PostArgsValidator.js` file with following contents:
 
 ```javascript
@@ -380,7 +379,8 @@ Then you need to register validator for action you need:
 // ...
 ```
 
+And controller args will be validated before controller method is executed.
 Validators are regular services and you can inject any other service using constructor injection.
 
-At this point you should already know a 90% of GraphStack framework and you are ready to start creating amazing backends using it.
+At this point you should already know a 90% of Scepter framework and you are ready to start creating amazing backends using it.
 Example repository for this sample is available [here](https://github.com/graphframework/javascript-advanced-example).

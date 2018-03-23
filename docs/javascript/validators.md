@@ -3,7 +3,7 @@
 > This guide is for JavaScript users. TypeScript version is [here](../typescript/validators.md).
 
 Any input data must be validated. 
-In GraphQL input data is `args` and GraphStack provides you a way to validate `args` objects.
+In GraphQL all input data is exposed through `args` and Scepter provides you a way to validate `args` objects.
 
 First, create a validator:
 
@@ -38,5 +38,3 @@ You can also register it on a resolver method:
 ```javascript
 { resolver: PostResolver, model: Post, methods: [{ methodName: "categories", validators: [PostCategoryArgsValidator] }] }
 ```
-
-Now, on each client request args on your `posts` query will be validated using `PostsArgsValidator` class.

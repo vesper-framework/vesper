@@ -17,7 +17,7 @@ type Post {
 And you have a following controller:
 
 ```typescript
-import {Controller, Query} from "graphstack";
+import {Controller, Query} from "scepter";
 import {EntityManager} from "typeorm";
 import {Post} from "../entity/Post";
 
@@ -40,7 +40,7 @@ To additionally return `categoryNames` you need to load all post's categories an
 like this: 
 
 ```typescript
-import {Controller, Query} from "graphstack";
+import {Controller, Query} from "scepter";
 import {EntityManager} from "typeorm";
 import {Post} from "../entity/Post";
 import {Category} from "../entity/Category";
@@ -73,7 +73,7 @@ But what is solution then?
 Solution is to revert controller back to its original form and create a separate `Resolver` class:
 
 ```typescript
-import {Resolver, ResolverInterface, Resolve} from "graphstack";
+import {Resolver, ResolverInterface, Resolve} from "scepter";
 import {EntityManager} from "typeorm";
 import {Post} from "../entity/Post";
 import {Category} from "../entity/Category";
@@ -109,15 +109,15 @@ bootstrap({
 
 Now `categoryNames` method will be executed only when client will request post's categoryNames.
 
-Code inside `categoryNames` method will be executed as many times as much posts we load each time.
+Code inside `categoryNames` method will be executed as many times as many posts we load.
+This can lead into performance issues if you have a costly operation inside your resolver method.
 To address this issue GraphQL suggests to use [data-loader](https://github.com/facebook/dataloader) library.
-GraphStack provides a powerful abstraction layer that prevents you to use it directly and implement what you want - 
-load `categoryNames` in a single request for all requested posts.
+Scepter provides a powerful abstraction layer that prevents you to use it directly and reduce a boilerplate code.
 
 Let's change our `PostResolver` class:
 
 ```typescript
-import {Resolver, Resolve, ResolverInterface} from "graphstack";
+import {Resolver, Resolve, ResolverInterface} from "scepter";
 import {EntityManager} from "typeorm";
 import {Post} from "../entity/Post";
 import {Category} from "../entity/Category";
@@ -157,4 +157,4 @@ categoryNames(posts, args, context, info) {
 }
 ```
 
-You can use validation and authorization features of GraphStack just like you can use them on controllers.
+You can use validation and authorization features of Scepter just like you can use them on controllers.

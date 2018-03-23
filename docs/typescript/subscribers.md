@@ -2,11 +2,11 @@
 
 > This guide is for TypeScript users. JavaScript version is [here](../javascript/subscribers.md).
 
-To work with subscribers you need to create a `PubSub` instance and use it across app.
+To work with subscriptions you need to create a `PubSub` instance and use it across app.
 Best way to use a single instance across the app is to register it in service container:
 
 ```typescript
-import {bootstrap} from "graphstack";
+import {bootstrap} from "scepter";
 import {PubSub} from "graphql-subscriptions";
 
 const pubSub = new PubSub();

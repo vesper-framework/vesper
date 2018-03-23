@@ -23,7 +23,7 @@ export interface Post {
 ```
 
 Model, that you want to store in the database is called "entity".
-For example, for this particular `Post` model you can define entity this way:
+For example, for this particular `Post` model you can define an entity:
 
 ```typescript
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
@@ -51,14 +51,14 @@ and TypeORM will create you a following table:
 +-------------+--------------+----------------------------+
 | id          | int(11)      | PRIMARY KEY AUTO_INCREMENT |
 | title       | varchar(255) |                            |
-| filename    | varchar(255) |                            |
+| text        | varchar(255) |                            |
 +-------------+--------------+----------------------------+
 ```
 
-Then you'll be able to load/save/delete posts from your database this way:
+Then you'll be able to load / save / delete posts from your database this way:
 
 ```typescript
-import {Controller, Query, Mutation} from "graphstack";
+import {Controller, Query, Mutation} from "scepter";
 import {EntityManager} from "typeorm";
 import {Post} from "../entity/Post";
 
@@ -86,7 +86,7 @@ export class PostController {
 
     @Mutation()
     async postDelete({ id }) {
-        await this.entityManager.remove({ id: id });
+        await this.entityManager.remove(Post, { id: id });
         return true;
     }
 

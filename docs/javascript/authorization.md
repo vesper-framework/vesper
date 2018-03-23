@@ -2,7 +2,7 @@
 
 > This guide is for JavaScript users. TypeScript version is [here](../typescript/authorization.md).
 
-GraphStack provides you an abstract way on how you define your currently authorized user.
+Scepter provides you an abstract way on how you define your currently authorized user.
 
 Create some class that you'll use as currently authorized user, for example `CurrentUser`:
 

@@ -24,6 +24,7 @@ Following project structure is recommended for small apps:
 │   │   └── model               // schemas for models and entities
 │   ├── service             // services - place for logic extracted out of other classes
 │   ├── validator           // args and user input validation logic
+│   ├── util                // utility functions
 │   └── index.ts            // bootstrap file
 │   
 ├── test                // unit, functional, e2e and other tests
@@ -54,7 +55,8 @@ Following project structure is recommended for large apps:
 │   │   │   └── model               // schemas for models and entities
 │   │   ├── service             // services - place for logic extracted out of other classes
 │   │   ├── validator           // args and user input validation logic
-│   │   └── index.ts            // bootstrap file
+│   │   ├── util                // utility functions
+│   │   └── index.ts            // module file
 │   │
 │   ├── module2             // module name (for example "photo")
 │   │   ├── args                // controller and resolver arguments
@@ -70,9 +72,11 @@ Following project structure is recommended for large apps:
 │   │   │   └── model               // schemas for models and entities
 │   │   ├── service             // services - place for logic extracted out of other classes
 │   │   ├── validator           // args and user input validation logic
-│   │   └── index.ts            // bootstrap file
+│   │   ├── util                // utility functions
+│   │   └── index.ts            // module file
 │   │
-│   └──  ...                 // other modules
+│   ├── ...                 // other modules
+│   └── index.ts            // bootstrap file
 │
 ├── test                // unit, functional, e2e and other tests
 ├── config.json         // application configuration used in source code
@@ -107,6 +111,7 @@ you can follow this directory structure:
 │   │   │   └── model               // schemas for models and entities
 │   │   ├── service             // services - place for logic extracted out of other classes
 │   │   ├── validator           // args and user input validation logic
+│   │   ├── util                // utility functions
 │   │   └── index.ts            // bootstrap file
 │   │   
 │   ├── test                // unit, functional, e2e and other tests
