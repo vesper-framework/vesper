@@ -48,7 +48,7 @@ export class ActionExecutor {
 
         // create a new scoped container for this request
         if (this.builder.connection) {
-            if ((action.metadata as ActionMetadata).transaction) {
+            if ((action.metadata as ActionMetadata).transaction && this.builder.connection.options.type !== "mongodb") {
                 return this.builder.connection.manager.transaction(entityManager => {
                     return this.step2(action, entityManager);
                 });
