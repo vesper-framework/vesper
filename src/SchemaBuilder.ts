@@ -114,7 +114,7 @@ export class SchemaBuilder {
         return mergeSchemas({
             schemas: [
                 makeExecutableSchema({
-                    typeDefs: "scalar Date \r\n scalar Upload \r\n" + mergeTypes(schemaTypes) + "\r\n" + this.options.customTypeDefs,
+                    typeDefs: "scalar Date \r\n scalar Upload \r\n" + mergeTypes(schemaTypes) + "\r\n" + (this.options.customTypeDefs || ""),
                     resolvers: resolvers,
                     resolverValidationOptions: {
                         allowResolversNotInSchema: true
