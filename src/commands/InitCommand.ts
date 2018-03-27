@@ -232,11 +232,9 @@ export class User {
 
     @Column()
     lastName: string;
-
 ${ database !== "mongodb" ? `
     @OneToMany(() => Photo, photo => photo.user)
-    photos: Photo[];
-` : ""}
+    photos: Photo[];` : ""}
 
 }
 `;
@@ -289,14 +287,12 @@ export class Photo {
 
     @Column()
     filename: string;
-    
+
     @Column()
     userId: ${ database === "mongodb" ? "string" : "number" };
-    
 ${ database !== "mongodb" ? `
     @ManyToOne(() => User, user => user.photos)
-    user: User;
-` : ""}
+    user: User;` : ""}
 
 }
 `;
@@ -352,13 +348,13 @@ export class UserController {
 
     @Query()
     users(args: UsersArgs): Promise<User[]> {
-    
+
         const findOptions: FindManyOptions = {};
         if (args.limit)
             findOptions.skip = args.limit;
         if (args.offset)
             findOptions.take = args.offset;
-            
+
         return this.entityManager.find(User, findOptions);
     }
 
@@ -399,13 +395,13 @@ export class UserController {
     }
 
     users(args) {
-    
+
         const findOptions = {};
         if (args.limit)
             findOptions.skip = args.limit;
         if (args.offset)
             findOptions.take = args.offset;
-            
+
         return this.entityManager.find(User, findOptions);
     }
 
@@ -594,7 +590,7 @@ type Mutation {
 
     id?: ${database === "mongodb" ? "string" : "number"};
     filename: string;
-    userId: number;
+    userId: ${database === "mongodb" ? "string" : "number"};
 
 }`;
     }
