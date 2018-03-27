@@ -1,4 +1,10 @@
-# Vesper
+<div align="center">
+  <a href="http://vesper-framework.com">
+    <img src="https://github.com/typeorm/typeorm/raw/master/resources/logo.png" >
+  </a>
+  <br>
+  <br>
+</div>
 
 Vesper is a NodeJS framework that helps you to create scalable, maintainable, extensible, declarative and fast
 [GraphQL](https://graphql.org/)-based server applications.
