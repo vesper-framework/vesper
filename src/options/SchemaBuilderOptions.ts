@@ -40,6 +40,11 @@ export interface SchemaBuilderOptions extends GraphModule {
     customResolvers?: any;
 
     /**
+     * Additional type definitions (applied to all other type definitions).
+     */
+    customTypeDefs?: any;
+
+    /**
      * Logger to be used for error reporting.
      * By default console.error is used.
      */

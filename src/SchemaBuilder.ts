@@ -2,7 +2,9 @@ import "reflect-metadata";
 import {Container} from "typedi";
 import {getMetadataArgsStorage} from "./index";
 import {
-    Connection, ConnectionOptionsReader, createConnection,
+    Connection,
+    ConnectionOptionsReader,
+    createConnection,
     getMetadataArgsStorage as getTypeORMMetadataArgsStorage
 } from "typeorm";
 import {GraphQLScalarType, GraphQLSchema, Kind} from "graphql";
@@ -112,7 +114,7 @@ export class SchemaBuilder {
         return mergeSchemas({
             schemas: [
                 makeExecutableSchema({
-                    typeDefs: "scalar Date \r\n scalar Upload \r\n" + mergeTypes(schemaTypes),
+                    typeDefs: "scalar Date \r\n scalar Upload \r\n" + mergeTypes(schemaTypes) + "\r\n" + this.options.customTypeDefs,
                     resolvers: resolvers,
                     resolverValidationOptions: {
                         allowResolversNotInSchema: true
