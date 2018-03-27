@@ -49,9 +49,9 @@ vesper init --name my-project --typescript
 
 ## Documentation
 
-* [JavaScript documentation](http://vesper.github.io/javascript/getting-started)
+* [JavaScript documentation](http://vesper-framework.com/javascript/getting-started)
 * [JavaScript samples](https://github.com/vesper-framework/vesper/tree/master/sample/javascript)
-* [TypeScript documentation](http://vesper.github.io/typescript/getting-started)
+* [TypeScript documentation](http://vesper-framework.com/typescript/getting-started)
 * [TypeScript samples](https://github.com/vesper-framework/vesper/tree/master/sample/typescript)
 
 ## Links
