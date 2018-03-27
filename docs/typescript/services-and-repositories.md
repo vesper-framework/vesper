@@ -29,7 +29,7 @@ export class PasswordEncryptor {
 Then you can use it in any other service (including controllers, resolvers, validators, etc.):
 
 ```typescript
-import {Controller, Mutation} from "scepter";
+import {Controller, Mutation} from "vesper";
 import {EntityManager} from "typeorm";
 import {User} from "../entity/User";
 import {UserSaveArgs} from "../args/UserSaveArgs";
@@ -52,7 +52,7 @@ export class UserController {
 }
 ```
 
-Scepter uses [TypeDI](https://github.com/typestack/typedi) service container - a powerful dependency injection tool.
+Vesper uses [TypeDI](https://github.com/typestack/typedi) service container - a powerful dependency injection tool.
 All your services are scoped by user request by default.
 
 Repositories are services, just like controllers are resolvers are.

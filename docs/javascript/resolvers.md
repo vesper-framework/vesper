@@ -105,7 +105,7 @@ Now `categoryNames` method will be executed only when client will request post's
 Code inside `categoryNames` method will be executed as many times as many posts we load.
 This can lead into performance issues if you have a costly operation inside your resolver method.
 To address this issue GraphQL suggests to use [data-loader](https://github.com/facebook/dataloader) library.
-Scepter provides a powerful abstraction layer that prevents you to use it directly and reduce a boilerplate code.
+Vesper provides a powerful abstraction layer that prevents you to use it directly and reduce a boilerplate code.
 
 Let's change our `PostResolver` class:
 
@@ -158,4 +158,4 @@ categoryNames(posts, args, context, info) {
 }
 ```
 
-You can use validation and authorization features of Scepter just like you can use them on controllers.
+You can use validation and authorization features of Vesper just like you can use them on controllers.

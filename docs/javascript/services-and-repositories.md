@@ -46,7 +46,7 @@ export class UserController {
 }
 ```
 
-Scepter uses [TypeDI](https://github.com/typestack/typedi) service container - a powerful dependency injection tool.
+Vesper uses [TypeDI](https://github.com/typestack/typedi) service container - a powerful dependency injection tool.
 All your services are scoped by user request by default.
 
 Repositories are services, just like controllers are resolvers are.

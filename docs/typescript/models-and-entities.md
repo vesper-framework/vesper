@@ -58,7 +58,7 @@ and TypeORM will create you a following table:
 Then you'll be able to load / save / delete posts from your database this way:
 
 ```typescript
-import {Controller, Query, Mutation} from "scepter";
+import {Controller, Query, Mutation} from "vesper";
 import {EntityManager} from "typeorm";
 import {Post} from "../entity/Post";
 

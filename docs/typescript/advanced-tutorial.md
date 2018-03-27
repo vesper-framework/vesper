@@ -35,7 +35,7 @@ export interface PostsArgs {
 Args are being passed as a first parameter in your controller action:
 
 ```typescript
-import {Controller, Query} from "scepter";
+import {Controller, Query} from "vesper";
 import {EntityManager, FindManyOptions} from "typeorm";
 import {PostsArgs} from "../args/PostsArgs";
 import {Post} from "../entity/Post";
@@ -70,7 +70,7 @@ export class PostController {
 ### Adding relations
 
 Using TypeORM you can create one-to-one, one-to-many, many-to-one and many-to-many relations between your entities.
-Scepter automatically resolves all your relations when you request them. 
+Vesper automatically resolves all your relations when you request them.
 
 Let's create a new model called `Category` and add a many-to-many relation between `Post` and `Category`.
 First, create a new `src/schemas/model/Category.graphql` schema file:
@@ -153,7 +153,7 @@ bootstrap({
 ```
 
 Now you'll be able to query post categories and category posts without any extra code written!
-Scepter and TypeORM does all the magic for you.
+Vesper and TypeORM does all the magic for you.
 
 ```graphql
 query {
@@ -185,7 +185,7 @@ query {
 
 ### Creating a Resolver
 
-Scepter provides you an elegant way to create resolvers for your models.
+Vesper provides you an elegant way to create resolvers for your models.
 Let's say you have `categoryNames` property in your `Post` schema:
 
 ```graphql
@@ -207,7 +207,7 @@ First, add `categoryNames: string[]` property to your `Post` entity.
 Then create a resolver class inside `src/resolver/PostResolver.ts` file:
 
 ```typescript
-import {Resolver, Resolve, ResolverInterface} from "scepter";
+import {Resolver, Resolve, ResolverInterface} from "vesper";
 import {EntityManager} from "typeorm";
 import {Post} from "../entity/Post";
 import {Category} from "../entity/Category";
@@ -262,12 +262,12 @@ In previous section we created a resolver that resolves `categoryNames` property
 Code inside `categoryNames` method will be executed as many times as many posts we load.
 This can lead into performance issues if you have a costly operation inside your resolver method.
 To address this issue GraphQL suggests to use [data-loader](https://github.com/facebook/dataloader) library.
-Scepter provides a powerful abstraction layer that prevents you to use it directly and reduce a boilerplate code.
+Vesper provides a powerful abstraction layer that prevents you to use it directly and reduce a boilerplate code.
 
 Let's change our `PostResolver.ts` file:
 
 ```typescript
-import {Resolve, Resolver, ResolverInterface} from "scepter";
+import {Resolve, Resolver, ResolverInterface} from "vesper";
 import {EntityManager} from "typeorm";
 import {Post} from "../entity/Post";
 import {Category} from "../entity/Category";
@@ -301,7 +301,7 @@ This allowed us to return category names within a single database query.
 
 ### Using service container
 
-Scepter provides you a [powerful service container](https://github.com/typestack/typedi) out of the box.
+Vesper provides you a [powerful service container](https://github.com/typestack/typedi) out of the box.
 This allows you to structure your code a better way and easily unit-test your code.
 Let's create a `TextGenerator` class in a `src/service/TextGenerator.ts` file:
 
@@ -324,7 +324,7 @@ export class TextGenerator {
 Then you can inject this service in any controller, resolver or other service using constructor:
 
 ```typescript
-import {Controller} from "scepter";
+import {Controller} from "vesper";
 import {TextGenerator} from "../service/TextGenerator";
 
 @Controller()
@@ -344,7 +344,7 @@ All services have a request-scope by default.
 ### Validating input arguments
 
 All user input must be validated. 
-Scepter provides you a way to validate all user input (args) elegant way.
+Vesper provides you a way to validate all user input (args) elegant way.
 Create a `src/validator/PostsArgsValidator.ts` file with following contents:
 
 ```typescript
@@ -374,7 +374,7 @@ export class PostsArgsValidator {
 Then you need to register validator for action you need:
 
 ```typescript
-import {Controller, Query, ArgsValidator} from "scepter";
+import {Controller, Query, ArgsValidator} from "vesper";
 import {EntityManager, FindManyOptions} from "typeorm";
 import {Post} from "../entity/Post";
 import {PostsArgsValidator} from "../validator/PostsArgsValidator";
@@ -410,5 +410,5 @@ export class PostController {
 And controller args will be validated before controller method is executed.
 Validators are regular services and you can inject any other service using constructor injection.
 
-At this point you should already know a 90% of Scepter framework and you are ready to start creating amazing backends using it.
+At this point you should already know a 90% of Vesper framework and you are ready to start creating amazing backends using it.
 Example repository for this sample is available [here](https://github.com/graphframework/typescript-advanced-example).

@@ -21,7 +21,7 @@ type Mutation {
 You create a following controller:
 
 ```typescript
-import {Controller, Query, Mutation} from "scepter";
+import {Controller, Query, Mutation} from "vesper";
 
 @Controller()
 export class PostController {

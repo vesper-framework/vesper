@@ -3,7 +3,7 @@
 > This guide is for TypeScript users. JavaScript version is [here](../javascript/validators.md).
 
 Any input data must be validated. 
-In GraphQL all input data is exposed through `args` and Scepter provides you a way to validate `args` objects.
+In GraphQL all input data is exposed through `args` and Vesper provides you a way to validate `args` objects.
 
 First, create a validator:
 
@@ -34,7 +34,7 @@ export class PostsArgsValidator {
 Second, register validator on a controller method where you want to validate `args`:
 
 ```typescript
-import {Controller, Query, ArgsValidator, PostsArgsValidator} from "scepter";
+import {Controller, Query, ArgsValidator, PostsArgsValidator} from "vesper";
 import {PostsArgs} from "../entity/PostsArgs";
 import {PostsArgsValidator} from "../validator/PostsArgsValidator";
 
@@ -53,7 +53,7 @@ export class PostController {
 You can also register it on a resolver method:
 
 ```typescript
-import {Resolver, Resolve, ResolverInterface, ArgsValidator} from "scepter";
+import {Resolver, Resolve, ResolverInterface, ArgsValidator} from "vesper";
 import {EntityManager} from "typeorm";
 import {Post} from "../entity/Post";
 import {Category} from "../entity/Category";

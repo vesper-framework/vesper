@@ -6,7 +6,7 @@ To work with subscriptions you need to create a `PubSub` instance and use it acr
 Best way to use a single instance across the app is to register it in service container:
 
 ```typescript
-import {bootstrap} from "scepter";
+import {bootstrap} from "vesper";
 import {PubSub} from "graphql-subscriptions";
 
 const pubSub = new PubSub();

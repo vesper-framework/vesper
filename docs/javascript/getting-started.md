@@ -2,7 +2,7 @@
 
 > This guide is for JavaScript users. TypeScript version is [here](../typescript/getting-started.md).
 
-This guide will teach you how to create a simple CRUD application using Scepter.
+This guide will teach you how to create a simple CRUD application using Vesper.
 We will create a "post" application, where users can create / read / update and delete posts.
 
 * [Initial setup](#initial-setup)
@@ -14,10 +14,10 @@ We will create a "post" application, where users can create / read / update and 
 
 ### Initial setup
 
-Create a directory for the new project with a package.json inside (you can use `npm init`) and install Scepter:
+Create a directory for the new project with a package.json inside (you can use `npm init`) and install Vesper:
 
 ```
-npm i scepter --save
+npm i vesper --save
 ```
 
 In this tutorial we will use `sqlite` database, so install it as well:
@@ -209,10 +209,10 @@ With following configuration:
 This will tell TypeORM to use SQLite database and store your data inside `database.sqlite` file.
 Learn more about `ormconfig` from [TypeORM documentation](http://typeorm.io/#/using-ormconfig).
 
-Now we only need to bootstrap our Scepter application. Let's create a `src/index.js` file:
+Now we only need to bootstrap our Vesper application. Let's create a `src/index.js` file:
 
 ```javascript
-import {bootstrap} from "scepter";
+import {bootstrap} from "vesper";
 import {PostController} from "./controller/PostController"; 
 import {Post} from "./entity/Post"; 
 
@@ -249,7 +249,7 @@ That's it, your app is up ready to serve your GraphQL client queries!
 
 ### Working with application
 
-Scepter provides you a [GraphQL Playground](https://github.com/graphcool/graphql-playground) out of the box in the development mode, you can access it via:
+Vesper provides you a [GraphQL Playground](https://github.com/graphcool/graphql-playground) out of the box in the development mode, you can access it via:
 
 ```
 http://localhost:3000/playground

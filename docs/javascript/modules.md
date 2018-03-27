@@ -3,7 +3,7 @@
 > This guide is for JavaScript users. TypeScript version is [here](../typescript/modules.md).
 
 Once your project gets larger having everything in a single `src` directory may create a big mess for you.
-Scepter provides you an abstraction called `module` to separate your different parts of your application into modules.
+Vesper provides you an abstraction called `module` to separate your different parts of your application into modules.
 
 Let's create a `User` and `Photo` modules. 
 Create `src/user` and `src/photo` directories.

@@ -3,7 +3,7 @@
 > This guide is for TypeScript users. JavaScript version is [here](../javascript/entity-relations.md).
 
 Using TypeORM you can create one-to-one, one-to-many, many-to-one and many-to-many relations between your entities.
-Scepter automatically resolves all your relations when you request them. 
+Vesper automatically resolves all your relations when you request them.
 
 Let's say you have a `Post` model:
 
@@ -72,7 +72,7 @@ export class Category {
 }
 ```
 
-Scepter provides an automatic entity relation resolver, 
+Vesper provides an automatic entity relation resolver,
 so when you request posts with categories:
 
 ```graphql

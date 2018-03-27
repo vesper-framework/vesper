@@ -3,7 +3,7 @@
 > This guide is for JavaScript users. TypeScript version is [here](../typescript/validators.md).
 
 Any input data must be validated. 
-In GraphQL all input data is exposed through `args` and Scepter provides you a way to validate `args` objects.
+In GraphQL all input data is exposed through `args` and Vesper provides you a way to validate `args` objects.
 
 First, create a validator:
 
