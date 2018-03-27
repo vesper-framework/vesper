@@ -1,4 +1,4 @@
-import {buildGraphStackSchema, graphStack} from "../../../src";
+import {buildVesperSchema, vesper} from "../../../src";
 import * as express from "express";
 import * as cors from "cors";
 import * as bodyParser from "body-parser";
@@ -6,7 +6,7 @@ import {graphiqlExpress} from "apollo-server-express";
 import {PostController} from "./controller/PostController";
 import {Post} from "./entity/Post";
 
-buildGraphStackSchema({
+buildVesperSchema({
     controllers: [PostController],
     entities: [Post],
     schemas: [__dirname + "/schema/**/*.graphql"]
@@ -14,7 +14,7 @@ buildGraphStackSchema({
 
     const app = express();
     app.use(cors());
-    app.use("/graphql", bodyParser.json(), graphStack(schema));
+    app.use("/graphql", bodyParser.json(), vesper(schema));
     app.use("/graphiql", graphiqlExpress({ endpointURL: "/graphql" }));
     app.listen(3000, (error: any) => {
         if (error) {

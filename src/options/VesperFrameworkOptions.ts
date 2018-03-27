@@ -4,9 +4,9 @@ import {SchemaBuilderOptions} from "./SchemaBuilderOptions";
 import {RequestHandler} from "express-serve-static-core";
 
 /**
- * GraphStack framework initialization options.
+ * Vesper framework initialization options.
  */
-export interface GraphStackFrameworkOptions extends SchemaBuilderOptions {
+export interface VesperFrameworkOptions extends SchemaBuilderOptions {
 
     /**
      * Port on which http server must be launched.

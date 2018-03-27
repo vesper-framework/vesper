@@ -1,11 +1,11 @@
-import {GraphStackFrameworkOptions} from "./options/GraphStackFrameworkOptions";
+import {VesperFrameworkOptions} from "./options/VesperFrameworkOptions";
 import * as express from "express";
 import {Application} from "express";
 import {Server} from "http";
 import {graphiqlExpress} from "apollo-server-express";
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
-import {buildGraphStackSchema, getMetadataArgsStorage, graphStack} from "./index";
+import {buildVesperSchema, getMetadataArgsStorage, vesper} from "./index";
 import {Container} from "typedi";
 import * as fs from "fs";
 import {SubscriptionServer} from "subscriptions-transport-ws";
@@ -15,10 +15,10 @@ import expressPlayground from "graphql-playground-middleware-express";
 const apolloUploadExpress = require("apollo-upload-server").apolloUploadExpress;
 
 /**
- * Bootstraps GraphStack framework.
+ * Bootstraps Vesper framework.
  * Registers controllers and middlewares, creates http server and database connection.
  */
-export class GraphStackFramework {
+export class VesperFramework {
 
     // -------------------------------------------------------------------------
     // Public Properties
@@ -32,7 +32,7 @@ export class GraphStackFramework {
     /**
      * Framework options.
      */
-    options: GraphStackFrameworkOptions;
+    options: VesperFrameworkOptions;
 
     /**
      * Express application instance.
@@ -48,7 +48,7 @@ export class GraphStackFramework {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(options: GraphStackFrameworkOptions) {
+    constructor(options: VesperFrameworkOptions) {
         this.options = options;
         this.application = options.expressApp || express();
     }
@@ -83,10 +83,10 @@ export class GraphStackFramework {
         if (this.options.cors)
             this.application.use(this.options.cors === true ? cors() : cors(this.options.cors));
 
-        // register graphstack middleware with grahpql middleware inside
+        // register vesper middleware with grahpql middleware inside
         const graphQLRoute = this.options.graphQLRoute || "/graphql";
-        const schema = await buildGraphStackSchema(this.options);
-        this.application.use(graphQLRoute, bodyParser.json(), apolloUploadExpress(), graphStack(schema));
+        const schema = await buildVesperSchema(this.options);
+        this.application.use(graphQLRoute, bodyParser.json(), apolloUploadExpress(), vesper(schema));
 
         // start server on a given port
         return new Promise<void>((ok, fail) => {

@@ -4,12 +4,12 @@ import {CommandUtils} from "./CommandUtils";
 const chalk = require("chalk");
 
 /**
- * Generates a new project with GraphStack.
+ * Generates a new project with Vesper.
  */
 export class InitCommand {
 
     command = "init";
-    describe = "Generates initial GraphStack project structure. " +
+    describe = "Generates initial Vesper project structure. " +
         "If name specified then creates files inside directory called as name. " +
         "If its not specified then creates files inside current directory.";
 
@@ -334,7 +334,7 @@ export const Photo = new EntitySchema({
      * Gets contents of the user controller file.
      */
     protected static getUserControllerTsTemplate(): string {
-        return `import {Controller, Mutation, Query} from "graphstack";
+        return `import {Controller, Mutation, Query} from "vesper";
 import {EntityManager, FindManyOptions} from "typeorm";
 import {UsersArgs} from "../args/UsersArgs";
 import {UserSaveArgs} from "../args/UserSaveArgs";
@@ -428,7 +428,7 @@ export class UserController {
      * Gets contents of the photo controller file.
      */
     protected static getPhotoControllerTsTemplate(): string {
-        return `import {Controller, Mutation, Query} from "graphstack";
+        return `import {Controller, Mutation, Query} from "vesper";
 import {EntityManager} from "typeorm";
 import {PhotoSaveArgs} from "../args/PhotoSaveArgs";
 import {Photo} from "../entity/Photo";
@@ -599,7 +599,7 @@ type Mutation {
      * Gets contents of the main (index) application file.
      */
     protected static getAppIndexTsTemplate(): string {
-        return `import {bootstrap} from "graphstack";
+        return `import {bootstrap} from "vesper";
 
 bootstrap({
     port: 3000,
@@ -621,7 +621,7 @@ bootstrap({
      */
     protected static getAppIndexJsTemplate(): string {
         return `import "babel-polyfill";
-import {bootstrap} from "graphstack";
+import {bootstrap} from "vesper";
 import {UserController} from "./controller/UserController";
 import {PhotoController} from "./controller/PhotoController";
 import {Photo} from "./entity/Photo";
@@ -662,9 +662,9 @@ bootstrap({
      */
     protected static getPackageJsonTemplate(projectName?: string): string {
         return JSON.stringify({
-            name: projectName || "graphstack-project",
+            name: projectName || "vesper-project",
             version: "0.0.1",
-            description: "Awesome project developed with GraphStack framework.",
+            description: "Awesome project developed with Vesper framework.",
             devDependencies: {
             },
             dependencies: {
@@ -763,7 +763,7 @@ services:
      * Gets contents of the new readme.md file.
      */
     protected static getReadmeTemplate(database: string): string {
-        let template = `# Awesome Project with GraphStack
+        let template = `# Awesome Vesper Project
         
 Steps to run this project:
 
@@ -881,7 +881,7 @@ query UserListWithPhotosQuery {
 
         if (!packageJson.dependencies) packageJson.dependencies = {};
         Object.assign(packageJson.dependencies, {
-            "graphstack": require("../package.json").version
+            "vesper": require("../package.json").version
         });
 
         switch (database) {

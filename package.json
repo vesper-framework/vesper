@@ -1,8 +1,8 @@
 {
-  "name": "graphstack",
+  "name": "vesper",
   "private": true,
-  "version": "0.0.14",
-  "description": "GraphQL Framework for TypeScript and JavaScript",
+  "version": "0.0.1",
+  "description": "GraphQL Server Side Framework for TypeScript and JavaScript.",
   "license": "MIT",
   "readmeFilename": "README.md",
   "author": {
@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/graphframework/graphstack.git"
+    "url": "https://github.com/vesper-framework/vesper.git"
   },
   "bugs": {
-    "url": "https://github.com/graphframework/graphstack/issues"
+    "url": "https://github.com/vesper-framework/vesper/issues"
   },
   "main": "index.js",
   "tags": [
@@ -26,7 +26,7 @@
     "typescript-framework"
   ],
   "bin": {
-    "graphstack": "./cli.js"
+    "vesper": "./cli.js"
   },
   "typings": "index.d.ts",
   "dependencies": {

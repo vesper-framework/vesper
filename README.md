@@ -1,12 +1,10 @@
-# GraphStack
+# Vesper
 
-> Work in progress and some links are broken!
-
-GraphStack is a NodeJS framework that helps you to create scalable, maintainable, extensible, declarative and fast 
+Vesper is a NodeJS framework that helps you to create scalable, maintainable, extensible, declarative and fast
 [GraphQL](https://graphql.org/)-based server applications.
 It perfectly fits any architecture and scale you choose - from monoliths to microservices, from small to enterprise apps. 
 
-Using GraphStack your app's core components are:
+Using Vesper your app's core components are:
 
 * Controllers (root queries)
 * Args (e.g. GraphQL resolver args or user input)
@@ -15,7 +13,7 @@ Using GraphStack your app's core components are:
 * Services
 * GraphQL schemas defined in `.graphql` format
 
-GraphStack provides you following features:
+Vesper provides you following features:
 
 * Controllers framework for your root queries
 * Maintainable GraphQL resolvers framework with data loader out of the box
@@ -33,36 +31,36 @@ And more...
 
 ## Quick Start
 
-To create a new JavaScript project using GraphStack install it globally and use `init` command 
+To create a new JavaScript project using Vesper install it globally and use `init` command
 with `--javascript` flag:
 
 ```
-npm i graphstack -g
-graphstack init --name my-project --javascript
+npm i vesper -g
+vesper init --name my-project --javascript
 ```
 
-To create a new TypeScript project using GraphStack install it globally and use `init` command
+To create a new TypeScript project using Vesper install it globally and use `init` command
 with `--typescript` flag:
 
 ```
-npm i graphstack -g
-graphstack init --name my-project --typescript
+npm i vesper -g
+vesper init --name my-project --typescript
 ```
 
 ## Documentation
 
-* [JavaScript documentation](http://graphstack.io/?lang=javascript)
-* [JavaScript samples](https://github.com/graphframework/graphstack/tree/master/sample/javascript)
-* [TypeScript documentation](http://graphstack.io/?lang=typescript)
-* [TypeScript samples](https://github.com/graphframework/graphstack/tree/master/sample/typescript)
+* [JavaScript documentation](http://vesper.github.io/javascript/getting-started)
+* [JavaScript samples](https://github.com/vesper-framework/vesper/tree/master/sample/javascript)
+* [TypeScript documentation](http://vesper.github.io/typescript/getting-started)
+* [TypeScript samples](https://github.com/vesper-framework/vesper/tree/master/sample/typescript)
 
 ## Links
 
-* [JavaScript simple example project](https://github.com/graphframework/javascript-simple-example)
-* [JavaScript advanced example project](https://github.com/graphframework/javascript-advanced-example)
-* [TypeScript simple example project](https://github.com/graphframework/typescript-simple-example)
-* [TypeScript advanced example project](https://github.com/graphframework/typescript-advanced-example)
+* [JavaScript simple example project](https://github.com/vesper-framework/javascript-simple-example)
+* [JavaScript advanced example project](https://github.com/vesper-framework/javascript-advanced-example)
+* [TypeScript simple example project](https://github.com/vesper-framework/typescript-simple-example)
+* [TypeScript advanced example project](https://github.com/vesper-framework/typescript-advanced-example)
 
 ## Contributing
 
-Want to contribute? GraphStack is opened for any contributions, just create a new [github issue](https://github.com/graphframework/graphstack/issues/new)!
+Want to contribute? Vesper is opened for any contributions, just create a new [github issue](https://github.com/vesper-framework/vesper/issues/new)!

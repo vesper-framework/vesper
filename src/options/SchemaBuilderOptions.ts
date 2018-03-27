@@ -3,7 +3,7 @@ import {Action} from "../";
 import {ContainerInstance} from "typedi";
 
 /**
- * GraphStack middleware options.
+ * Vesper middleware options.
  */
 export interface SchemaBuilderOptions extends GraphModule {
 

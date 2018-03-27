@@ -5,8 +5,8 @@ declare global {
 
 import "reflect-metadata";
 import {MetadataArgsStorage} from "./metadata-args/MetadataArgsStorage";
-import {GraphStackFramework} from "./GraphStackFramework";
-import {GraphStackFrameworkOptions} from "./options/GraphStackFrameworkOptions";
+import {VesperFramework} from "./VesperFramework";
+import {VesperFrameworkOptions} from "./options/VesperFrameworkOptions";
 import {NextFunction, Request, Response} from "express";
 import {SchemaBuilder} from "./SchemaBuilder";
 import {SchemaBuilderOptions} from "./options/SchemaBuilderOptions";
@@ -42,7 +42,7 @@ export * from "./options/GraphModule";
 export * from "./options/GraphModuleControllerAction";
 export * from "./options/GraphModuleResolver";
 export * from "./options/GraphModuleResolverMethod";
-export * from "./options/GraphStackFrameworkOptions";
+export * from "./options/VesperFrameworkOptions";
 export * from "./options/SchemaBuilderOptions";
 
 export * from "./token/CurrentResponse";
@@ -50,7 +50,7 @@ export * from "./token/CurrentRequest";
 
 export * from "./util/ResolverUtils";
 
-export * from "./GraphStackFramework";
+export * from "./VesperFramework";
 // export * from "./ValidationError";
 
 // -------------------------------------------------------------------------
@@ -62,33 +62,33 @@ export * from "./GraphStackFramework";
  * Metadata args storage follows the best practices and stores metadata in a global variable.
  */
 export function getMetadataArgsStorage(): MetadataArgsStorage {
-    if (!(global as any).graphstackMetadataArgsStorage)
-        (global as any).graphstackMetadataArgsStorage = new MetadataArgsStorage();
+    if (!(global as any).vesperMetadataArgsStorage)
+        (global as any).vesperMetadataArgsStorage = new MetadataArgsStorage();
 
-    return (global as any).graphstackMetadataArgsStorage;
+    return (global as any).vesperMetadataArgsStorage;
 }
 
 /**
  * Bootstraps framework the easiest way.
  */
-export function bootstrap(options?: GraphStackFrameworkOptions): Promise<GraphStackFramework> {
-    const framework = new GraphStackFramework(options);
+export function bootstrap(options?: VesperFrameworkOptions): Promise<VesperFramework> {
+    const framework = new VesperFramework(options);
     return framework.start().then(() => framework);
 }
 
 /**
  * Builds GraphQLSchema based on provided options.
  */
-export function buildGraphStackSchema(options?: SchemaBuilderOptions): Promise<GraphQLSchema> {
+export function buildVesperSchema(options?: SchemaBuilderOptions): Promise<GraphQLSchema> {
     const middleware = new SchemaBuilder(options);
     return middleware.build();
 }
 
 /**
- * GraphStack Express middleware.
+ * Vesper Express middleware.
  * You can use it in your own express setup.
  */
-export function graphStack(schema: any, options?: object) {
+export function vesper(schema: any, options?: object) {
     const allOptions: any = {
         context: {},
         schema: schema,
