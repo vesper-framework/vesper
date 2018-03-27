@@ -1,6 +1,6 @@
 <div align="center">
   <a href="http://vesper-framework.com">
-    <img src="https://github.com/typeorm/typeorm/raw/master/resources/logo.png" >
+    <img src="https://github.com/vesper-framework/vesper/raw/master/resources/logo.png" >
   </a>
   <br>
   <br>
