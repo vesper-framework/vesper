@@ -76,11 +76,16 @@ export class ActionExecutor {
             });
         }
 
-        // if setup-container callback was set then execute it before controller method execution
-        if (this.builder.options.setupContainer) {
-            const setupContainerResult = this.builder.options.setupContainer(action.container, action);
-            if (setupContainerResult instanceof Promise)
-                return setupContainerResult.then(() => this.step3(action));
+        // if setup-containers callback was set then execute it before controller method execution
+        if (this.builder.options.setupContainers) {
+          const promiseList = [];
+          this.builder.options.setupContainers.forEach((fn) => {
+            const containerResult = fn(action.container, action);
+            if (contanerResult instanceof Promise) {
+              promiseList.push(containerResult);
+            }
+          });
+          Promise.all(promiseList).then(() => this.step3(action));
         }
 
         return this.step3(action);
