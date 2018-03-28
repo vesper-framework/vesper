@@ -19,10 +19,10 @@ export interface SchemaBuilderOptions extends GraphModule {
     authorizationChecker?: (roles: any[], action: Action) => Promise<boolean>|boolean;
 
     /**
-     * Can be used to setup container on each user request.
+     * Can be used to setup containers on each user request.
      * For example, you can setup a currently authorized user and store it in the container.
      */
-    setupContainer?: (container: ContainerInstance, action: Action) => Promise<any>|any;
+    setupContainers?: Array<(container: ContainerInstance, action: Action) => Promise<any>|any>;
 
     /**
      * Setups AsyncIterator to use it for subscriptions.
