@@ -552,7 +552,7 @@ type Mutation {
 }
 
 type Mutation {
-    photoSave(id: ${database === "mongodb" ? "String" : "Int"}, filename: String, userId: ${database === "mongodb" ? "String" : "Int"}): User
+    photoSave(id: ${database === "mongodb" ? "String" : "Int"}, filename: String, userId: ${database === "mongodb" ? "String" : "Int"}): Photo
     photoDelete(id: ${database === "mongodb" ? "String" : "Int"}): Boolean
 }`;
     }
