@@ -166,7 +166,6 @@ export class SchemaBuilder {
      * Creates database connection if ormconfig was found.
      */
     protected async createORMConnection(): Promise<Connection|undefined> {
-        const hasConnection = await new ConnectionOptionsReader().has("default");
         const readerOptions = this.options.customTypeORMReaderOptions || {};
         const hasConnection = await new ConnectionOptionsReader(readerOptions).has("default");
         if (hasConnection) {
