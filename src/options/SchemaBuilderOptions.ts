@@ -45,6 +45,32 @@ export interface SchemaBuilderOptions extends GraphModule {
     customTypeDefs?: any;
 
     /**
+     * Custom TypeORM connection options.
+     */
+    typeorm?: {
+        /**
+         * Custom TypeORM ConnectionOptionsReader options.
+         */
+        connectionOptionsReaderOptions?: {
+            /**
+             * Directory where ormconfig should be read from.
+             * By default its your application root (where your app package.json is located).
+             */
+            root?: string,
+
+            /**
+             * Filename of the ormconfig configuration. By default its equal to "ormconfig".
+             */
+            configName?: string
+        };
+
+        /**
+         * Custom TypeORM connection name. "default" by default
+         */
+        connectionName?: string;
+    };
+
+    /**
      * Logger to be used for error reporting.
      * By default console.error is used.
      */
