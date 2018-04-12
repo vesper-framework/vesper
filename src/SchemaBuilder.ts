@@ -4,7 +4,7 @@ import {getMetadataArgsStorage} from "./index";
 import {
     Connection,
     ConnectionOptionsReader,
-    createConnection,
+    getConnectionManager,
     getMetadataArgsStorage as getTypeORMMetadataArgsStorage
 } from "typeorm";
 import {GraphQLScalarType, GraphQLSchema, Kind} from "graphql";
@@ -190,7 +190,7 @@ export class SchemaBuilder {
                 }
                 // todo: what about migrations ?
             });
-            return createConnection();
+            return getConnectionManager().create(options).connect();
         }
     }
 
