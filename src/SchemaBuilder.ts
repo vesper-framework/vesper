@@ -166,10 +166,11 @@ export class SchemaBuilder {
      * Creates database connection if ormconfig was found.
      */
     protected async createORMConnection(): Promise<Connection|undefined> {
-        const readerOptions = this.options.customTypeORMReaderOptions || {};
-        const hasConnection = await new ConnectionOptionsReader(readerOptions).has("default");
+        const readerOptions = this.options.typeorm && this.options.typeorm.connectionOptionsReaderOptions || {};
+        const name = this.options.typeorm && this.options.typeorm.connectionName || "default";
+        const hasConnection = await new ConnectionOptionsReader(readerOptions).has(name);
         if (hasConnection) {
-            const options = await new ConnectionOptionsReader(readerOptions).get("default");
+            const options = await new ConnectionOptionsReader(readerOptions).get(name);
             if (!options.entities)
                 Object.assign(options, { entities: [] });
             if (!options.subscribers)
