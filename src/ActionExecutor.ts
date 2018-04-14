@@ -34,7 +34,7 @@ export class ActionExecutor {
      * Executes resolver action.
      */
     executeResolver(action: Action): any {
-        return this.step3(action);
+        return this.step1(action);
     }
 
     // -------------------------------------------------------------------------
