@@ -127,15 +127,38 @@ export class ActionExecutor {
     }
 
     /**
-     * Final step - execute controller / resolver method.
+     * Fifth step - execute controller / resolver method.
      */
     protected step5(action: Action): any {
+        let result: any;
         if ((action.metadata as ActionMetadata).type === "query" || (action.metadata as ActionMetadata).type === "mutation") {
-            return action.container.get<any>(action.metadata.target)[action.metadata.methodName](action.args, action.context, action.info);
+            result = action.container.get<any>(action.metadata.target)[action.metadata.methodName](action.args, action.context, action.info);
         } else {
             // for subscriptions and resolver methods we send obj
-            return action.container.get<any>(action.metadata.target)[action.metadata.methodName](action.obj, action.args, action.context, action.info);
+            result = action.container.get<any>(action.metadata.target)[action.metadata.methodName](action.obj, action.args, action.context, action.info);
         }
+        if (result instanceof Promise)
+            return result.then(result => this.step6(action, result));
+
+        return this.step6(action, result);
+    }
+
+    /**
+     * Final step - we need to setup original entity manager back since if its a mutation in a transaction,
+     * transaction is already released at fifth step, but resolvers may need an entity manager to return some data back,
+     * and here we setup global entity manager back to the container, to prevent issue with released entity manager.
+     */
+    protected step6(action: Action, result: any) {
+
+        const containerEntityManager = action.container.get(EntityManager);
+        if (containerEntityManager !== this.builder.connection.manager) {
+            action.context.container.set(EntityManager, this.builder.connection.manager);
+            getTypeormMetadataArgsStorage().entityRepositories.forEach(repository => {
+                action.context.container.set(repository.target, this.builder.connection.manager.getCustomRepository(repository.target));
+            });
+        }
+
+        return result;
     }
 
 }

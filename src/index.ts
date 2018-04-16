@@ -111,7 +111,7 @@ export function vesper(schema: any, options?: object) {
             res.write(gqlResponse);
             res.end();
 
-            // request has finished - reset it
+            // request has finished - reset container
             Container.reset(req);
 
         }, (error: HttpQueryError) => {
