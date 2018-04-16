@@ -9,7 +9,6 @@ import {
 } from "typeorm";
 import {GraphQLScalarType, GraphQLSchema, Kind} from "graphql";
 import {makeExecutableSchema} from "graphql-tools";
-import mergeSchemas from "graphql-tools/dist/stitching/mergeSchemas";
 import {ActionMetadataBuilder} from "./metadata/ActionMetadataBuilder";
 import {ActionMetadata} from "./metadata/ActionMetadata";
 import {ResolveMetadataBuilder} from "./metadata/ResolveMetadataBuilder";
@@ -111,33 +110,29 @@ export class SchemaBuilder {
         if (this.options.customResolvers)
             Object.assign(resolvers, this.options.customResolvers);
 
-        return mergeSchemas({
-            schemas: [
-                makeExecutableSchema({
-                    typeDefs: "scalar Date \r\n scalar Upload \r\n" + mergeTypes(schemaTypes) + "\r\n" + (this.options.customTypeDefs || ""),
-                    resolvers: resolvers,
-                    resolverValidationOptions: {
-                        allowResolversNotInSchema: true
-                    },
-                    logger: {
-                        log: error => {
-                            // todo: need to finish implementation
-                            // console.log((error as ValidationError).name);
-                            // console.log((error as ValidationError).toString());
-                            // console.log(error instanceof ValidationError);
+        return makeExecutableSchema({
+            typeDefs: "scalar Date \r\n scalar Upload \r\n" + mergeTypes(schemaTypes) + "\r\n" + (this.options.customTypeDefs || ""),
+            resolvers: resolvers,
+            resolverValidationOptions: {
+                allowResolversNotInSchema: true
+            },
+            logger: {
+                log: (error: any) => {
+                    // todo: need to finish implementation
+                    // console.log((error as ValidationError).name);
+                    // console.log((error as ValidationError).toString());
+                    // console.log(error instanceof ValidationError);
 
-                            // skip user-made validation errors
-                            // if ((error as ValidationError).name === "ValidationError")
-                            //     return;
+                    // skip user-made validation errors
+                    // if ((error as ValidationError).name === "ValidationError")
+                    //     return;
 
-                            if (this.options.logger)
-                                return this.options.logger(error);
+                    if (this.options.logger)
+                        return this.options.logger(error);
 
-                            console.log((error as Error).stack ? (error as Error).stack : error);
-                        }
-                    }
-                })
-            ]
+                    console.log((error as Error).stack ? (error as Error).stack : error);
+                }
+            }
         });
     }
 
