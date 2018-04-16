@@ -14,13 +14,15 @@ export interface SchemaBuilderOptions extends GraphModule {
 
     /**
      * Special function used to check user authorization roles per request.
-     * Must return true or promise with boolean true resolved for authorization to succeed.
+     * Should throw an error if authorization was failed.
+     * Can return asynchronous value.
      */
-    authorizationChecker?: (roles: any[], action: Action) => Promise<boolean>|boolean;
+    authorizationChecker?: (roles: any[], action: Action) => Promise<any>|any;
 
     /**
      * Can be used to setup container on each user request.
      * For example, you can setup a currently authorized user and store it in the container.
+     * Can return asynchronous value.
      */
     setupContainer?: (container: ContainerInstance, action: Action) => Promise<any>|any;
 
