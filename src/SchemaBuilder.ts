@@ -306,7 +306,9 @@ export class SchemaBuilder {
             return;
 
         this.connection.entityMetadatas.forEach(entityMetadata => {
-            const resolverName = entityMetadata.targetName;
+            const resolverName = this.options.entityResolverNamingStrategy && entityMetadata.target instanceof Function
+                ? this.options.entityResolverNamingStrategy(entityMetadata.target)
+                : entityMetadata.targetName;
             if (!resolverName)
                 return;
 
