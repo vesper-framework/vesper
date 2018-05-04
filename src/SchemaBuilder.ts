@@ -136,6 +136,13 @@ export class SchemaBuilder {
         });
     }
 
+    async buildOnlySchema() {
+        const schemaTypes = this.loadSchemaTypes();
+        return makeExecutableSchema({
+            typeDefs: "scalar Date \r\n scalar Upload \r\n" + mergeTypes(schemaTypes) + "\r\n" + (this.options.customTypeDefs || ""),
+        });
+    }
+
     // -------------------------------------------------------------------------
     // Protected Methods
     // -------------------------------------------------------------------------
