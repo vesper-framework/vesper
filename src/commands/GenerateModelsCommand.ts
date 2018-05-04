@@ -42,12 +42,13 @@ export class GenerateModelsCommand {
             return executeWithOptions({
                 template: "typescript",
                 url: "http://127.0.0.1:" + argv.port + "/graphql",
-                out: process.cwd() + "/" + argv.out
+                out: process.cwd() + "/" + argv.out,
+                schema: true
             })
                 .then((generationResult: any[]) => {
-                    console.log(`Generation result contains total of ${generationResult.length} files...`);
+                    // console.log(`Generation result contains total of ${generationResult.length} files...`);
 
-                    generationResult.forEach(async (result: any) => {
+                    return Promise.all(generationResult.map(async (result: any) => {
                         // if (!options.overwrite && fileExists(result.filename)) {
                         //     console.log(`Generated file skipped (already exists, and no-overwrite flag is ON): ${result.filename}`);
                         //     return;
@@ -63,11 +64,9 @@ export class GenerateModelsCommand {
 
                         fs.writeFileSync(result.filename, await prettify(result.filename, result.content));
                         console.log(`Generated file written to ${result.filename}`);
-                    });
+                    })).then(() => framework.stop());
 
-                    return framework.stop();
-                })
-                .catch(error => {
+                }).catch(error => {
                     console.error(error);
                     return framework.stop();
                 });
