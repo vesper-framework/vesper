@@ -51,9 +51,9 @@ export class ActionExecutor {
 
             if ((action.metadata as ActionMetadata).transaction &&
                 this.builder.connection.options.type !== "mongodb") {
-                const entityManager = this.builder.connection.createEntityManager();
-                return entityManager.queryRunner.startTransaction().then(() => {
-                    return this.step2(action, entityManager);
+                const queryRunner = this.builder.connection.createQueryRunner();
+                return queryRunner.startTransaction().then(() => {
+                    return this.step2(action, queryRunner.manager);
                 });
 
             } else {

@@ -59,7 +59,7 @@ export class GenerateModelsCommand {
                         if (content.length === 0) {
                             console.log(`Generated file skipped (empty): ${result.filename}`);
 
-                            return;
+                                                   return;
                         }
 
                         fs.writeFileSync(result.filename, await prettify(result.filename, result.content));
