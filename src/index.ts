@@ -113,6 +113,7 @@ export function vesper(schema: any, options?: object) {
             const transactionEntityManager = container.has(EntityManager) ? container.get(EntityManager) : undefined;
             if (transactionEntityManager &&
                 transactionEntityManager.connection.options.type !== "mongodb" &&
+                transactionEntityManager.queryRunner &&
                 transactionEntityManager.queryRunner.isTransactionActive &&
                 transactionEntityManager.queryRunner.isReleased === false) {
                 return transactionEntityManager.queryRunner
@@ -137,6 +138,7 @@ export function vesper(schema: any, options?: object) {
             const transactionEntityManager = container.has(EntityManager) ? container.get(EntityManager) : undefined;
             if (transactionEntityManager &&
                 transactionEntityManager.connection.options.type !== "mongodb" &&
+                transactionEntityManager.queryRunner &&
                 transactionEntityManager.queryRunner.isTransactionActive &&
                 transactionEntityManager.queryRunner.isReleased === false) {
                 return transactionEntityManager.queryRunner

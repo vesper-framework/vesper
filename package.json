@@ -1,6 +1,6 @@
 {
   "name": "vesper",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "GraphQL Server Side Framework for TypeScript and JavaScript.",
   "license": "MIT",
   "readmeFilename": "README.md",
