@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {EntityManager, getMetadataArgsStorage as getTypeormMetadataArgsStorage} from "typeorm";
+import {EntityManager, getMetadataArgsStorage as getTypeormMetadataArgsStorage, QueryRunner} from "typeorm";
 import {Action} from "./interface/Action";
 import {SchemaBuilder} from "./SchemaBuilder";
 import {ActionMetadata} from "./metadata/ActionMetadata";
@@ -51,10 +51,22 @@ export class ActionExecutor {
 
             if ((action.metadata as ActionMetadata).transaction &&
                 this.builder.connection.options.type !== "mongodb") {
-                const queryRunner = this.builder.connection.createQueryRunner();
-                return queryRunner.startTransaction().then(() => {
-                    return this.step2(action, queryRunner.manager);
-                });
+
+                const containerEntityManager = action.context.container.get(EntityManager);
+                let queryRunner: QueryRunner;
+                if (containerEntityManager &&
+                    containerEntityManager.queryRunner &&
+                    containerEntityManager.queryRunner.isReleased === false) {
+                    queryRunner = containerEntityManager.queryRunner;
+                } else {
+                    queryRunner = this.builder.connection.createQueryRunner();
+                }
+
+                if (queryRunner.isTransactionActive === false) {
+                    return queryRunner.startTransaction().then(() => {
+                        return this.step2(action, queryRunner.manager);
+                    });
+                }
 
             } else {
                 return this.step2(action, this.builder.connection.manager);

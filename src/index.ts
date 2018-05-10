@@ -118,6 +118,7 @@ export function vesper(schema: any, options?: object) {
                 transactionEntityManager.queryRunner.isReleased === false) {
                 return transactionEntityManager.queryRunner
                     .commitTransaction()
+                    .then(() => transactionEntityManager.queryRunner.release())
                     .then(() => gqlResponse);
             }
             return gqlResponse;
@@ -143,6 +144,7 @@ export function vesper(schema: any, options?: object) {
                 transactionEntityManager.queryRunner.isReleased === false) {
                 return transactionEntityManager.queryRunner
                     .rollbackTransaction()
+                    .then(() => transactionEntityManager.queryRunner.release())
                     .then(() => { throw error; });
             }
             throw error;
