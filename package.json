@@ -1,6 +1,6 @@
 {
   "name": "vesper",
-  "version": "0.1.9",
+  "version": "0.2.0-alpha.1",
   "description": "GraphQL Server Side Framework for TypeScript and JavaScript.",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -53,7 +53,7 @@
     "reflect-metadata": "^0.1.12",
     "subscriptions-transport-ws": "^0.9.7",
     "typedi": "^0.7.2",
-    "typeorm": "^0.2.0-alpha.46",
+    "typeorm": "^0.3.0-alpha.0",
     "yargonaut": "^1.1.2",
     "yargs": "^11.0.0"
   },

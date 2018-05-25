@@ -2,7 +2,7 @@ import {Controller, Mutation, Query} from "../../../../src";
 import {Post} from "../entity/Post";
 import {PostSaveArgs} from "../args/PostSaveArgs";
 import {Category} from "../entity/Category";
-import {EntityManager, FindManyOptions} from "typeorm";
+import {EntityManager, FindOptions} from "typeorm";
 import {PostsArgs} from "../args/PostsArgs";
 
 @Controller()
@@ -13,15 +13,15 @@ export class PostController {
 
     @Query()
     posts(args: PostsArgs): Promise<Post[]> {
-        const findOptions: FindManyOptions<any> = {};
+        const findOptions: FindOptions<Post> = {};
         if (args.limit)
             findOptions.take = args.limit;
         if (args.offset)
             findOptions.skip = args.offset;
         if (args.sortBy === "last")
-            findOptions.order = { "id": "DESC" };
+            findOptions.order = { id: "desc" };
         if (args.sortBy === "name")
-            findOptions.order = { "name": "ASC" };
+            findOptions.order = { title: "asc" };
 
         return this.entityManager.find(Post, findOptions);
     }
