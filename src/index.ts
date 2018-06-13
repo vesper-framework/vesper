@@ -125,7 +125,7 @@ export function vesper(schema: any, options?: object) {
 
         }).then((gqlResponse) => {
 
-            res.setHeader("Content-Type", "application/json");
+            res.setHeader("Content-Type", "application/json; charset=utf-8");
             res.setHeader("Content-Length", String(Buffer.byteLength(gqlResponse, "utf8")));
             res.write(gqlResponse);
             res.end();
