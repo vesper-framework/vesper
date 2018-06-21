@@ -100,8 +100,10 @@ export function vesper(schema: any, options?: object) {
         const container = Container.of(req);
         container.set(CurrentRequest, req);
         container.set(CurrentResponse, res);
-        allOptions.context.container = container;
-        allOptions.context.dataLoaders = {};
+        allOptions.context = {
+            container,
+            dataLoaders: {}
+        };
 
         return runHttpQuery([req, res], {
             method: req.method,
