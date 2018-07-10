@@ -112,7 +112,8 @@ export function vesper(schema: any, options?: object) {
             // commit transaction
             const transactionEntityManager = container.has(EntityManager) ? container.get(EntityManager) : undefined;
             if (transactionEntityManager &&
-                transactionEntityManager.connection.options.type !== "mongodb" &&
+                (!transactionEntityManager.connection.options ||
+                    transactionEntityManager.connection.options.type !== "mongodb") &&
                 transactionEntityManager.queryRunner &&
                 transactionEntityManager.queryRunner.isTransactionActive &&
                 transactionEntityManager.queryRunner.isReleased === false) {
@@ -138,7 +139,8 @@ export function vesper(schema: any, options?: object) {
             // rollback transaction
             const transactionEntityManager = container.has(EntityManager) ? container.get(EntityManager) : undefined;
             if (transactionEntityManager &&
-                transactionEntityManager.connection.options.type !== "mongodb" &&
+                (!transactionEntityManager.connection.options ||
+                    transactionEntityManager.connection.options.type !== "mongodb") &&
                 transactionEntityManager.queryRunner &&
                 transactionEntityManager.queryRunner.isTransactionActive &&
                 transactionEntityManager.queryRunner.isReleased === false) {
