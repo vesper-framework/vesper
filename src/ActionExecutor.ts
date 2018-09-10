@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {EntityManager, getMetadataArgsStorage as getTypeormMetadataArgsStorage} from "typeorm";
+import {EntityManager, getMetadataArgsStorage as getTypeormMetadataArgsStorage, QueryRunner} from "typeorm";
 import {Action} from "./interface/Action";
 import {SchemaBuilder} from "./SchemaBuilder";
 import {ActionMetadata} from "./metadata/ActionMetadata";
@@ -48,10 +48,26 @@ export class ActionExecutor {
 
         // create a new scoped container for this request
         if (this.builder.connection) {
-            if ((action.metadata as ActionMetadata).transaction && this.builder.connection.options.type !== "mongodb") {
-                return this.builder.connection.manager.transaction(entityManager => {
-                    return this.step2(action, entityManager);
-                });
+
+            if ((action.metadata as ActionMetadata).transaction &&
+                this.builder.connection.options.type !== "mongodb") {
+
+                const containerEntityManager = action.context.container.get(EntityManager);
+                let queryRunner: QueryRunner;
+                if (containerEntityManager &&
+                    containerEntityManager.queryRunner &&
+                    containerEntityManager.queryRunner.isReleased === false) {
+                    queryRunner = containerEntityManager.queryRunner;
+                } else {
+                    queryRunner = this.builder.connection.createQueryRunner();
+                }
+
+                if (queryRunner.isTransactionActive === false) {
+                    return queryRunner.startTransaction().then(() => {
+                        return this.step2(action, queryRunner.manager);
+                    });
+                }
+
             } else {
                 return this.step2(action, this.builder.connection.manager);
             }
@@ -127,7 +143,7 @@ export class ActionExecutor {
     }
 
     /**
-     * Final step - execute controller / resolver method.
+     * Fifth step - execute controller / resolver method.
      */
     protected step5(action: Action): any {
         if ((action.metadata as ActionMetadata).type === "query" || (action.metadata as ActionMetadata).type === "mutation") {

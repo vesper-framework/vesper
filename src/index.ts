@@ -1,8 +1,4 @@
-declare global {
-  interface RequestInit {
-  }
-}
-
+import {EntityManager} from "typeorm";
 import "reflect-metadata";
 import {MetadataArgsStorage} from "./metadata-args/MetadataArgsStorage";
 import {VesperFramework} from "./VesperFramework";
@@ -15,6 +11,11 @@ import {HttpQueryError, runHttpQuery} from "apollo-server-core";
 import {GraphQLSchema} from "graphql";
 import {CurrentRequest} from "./token/CurrentRequest";
 import {CurrentResponse} from "./token/CurrentResponse";
+
+declare global {
+  interface RequestInit {
+  }
+}
 
 // -------------------------------------------------------------------------
 // Main exports
@@ -101,20 +102,55 @@ export function vesper(schema: any, options?: object) {
         container.set(CurrentResponse, res);
         allOptions.context.container = container;
         allOptions.context.dataLoaders = {};
+
         return runHttpQuery([req, res], {
             method: req.method,
             options: allOptions,
             query: req.method === "POST" ? req.body : req.query,
         }).then((gqlResponse) => {
-            res.setHeader("Content-Type", "application/json");
+
+            // commit transaction
+            const transactionEntityManager = container.has(EntityManager) ? container.get(EntityManager) : undefined;
+            if (transactionEntityManager &&
+                transactionEntityManager.connection.options.type !== "mongodb" &&
+                transactionEntityManager.queryRunner &&
+                transactionEntityManager.queryRunner.isTransactionActive &&
+                transactionEntityManager.queryRunner.isReleased === false) {
+                return transactionEntityManager.queryRunner
+                    .commitTransaction()
+                    .then(() => transactionEntityManager.queryRunner.release())
+                    .then(() => gqlResponse);
+            }
+            return gqlResponse;
+
+        }).then((gqlResponse) => {
+
+            res.setHeader("Content-Type", "application/json; charset=utf-8");
             res.setHeader("Content-Length", String(Buffer.byteLength(gqlResponse, "utf8")));
             res.write(gqlResponse);
             res.end();
 
-            // request has finished - reset it
+            // request has finished - reset container
             Container.reset(req);
 
-        }, (error: HttpQueryError) => {
+        }).catch((error: HttpQueryError) => {
+
+            // rollback transaction
+            const transactionEntityManager = container.has(EntityManager) ? container.get(EntityManager) : undefined;
+            if (transactionEntityManager &&
+                transactionEntityManager.connection.options.type !== "mongodb" &&
+                transactionEntityManager.queryRunner &&
+                transactionEntityManager.queryRunner.isTransactionActive &&
+                transactionEntityManager.queryRunner.isReleased === false) {
+                return transactionEntityManager.queryRunner
+                    .rollbackTransaction()
+                    .then(() => transactionEntityManager.queryRunner.release())
+                    .then(() => { throw error; });
+            }
+            throw error;
+
+        }).catch((error: HttpQueryError) => {
+
             if ("HttpQueryError" !== error.name)
                 return next(error);
 
@@ -127,6 +163,9 @@ export function vesper(schema: any, options?: object) {
             res.statusCode = error.statusCode;
             res.write(error.message);
             res.end();
+
+            // request has finished - reset container
+            Container.reset(req);
         });
     };
 }

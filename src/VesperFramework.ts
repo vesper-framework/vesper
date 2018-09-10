@@ -99,7 +99,7 @@ export class VesperFramework {
                 if (hasSubscriptions) {
                     new SubscriptionServer(
                         {
-                            execute, subscribe, schema, onConnect: () => {
+                            execute: execute as any, subscribe, schema, onConnect: () => {
                                 return { dataLoaders: [] } as any;
                             }
                         },
