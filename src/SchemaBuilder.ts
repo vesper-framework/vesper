@@ -260,8 +260,9 @@ export class SchemaBuilder {
                 const that = this;
                 resolvers[resolverType][action.name || action.methodName] = {
                     subscribe: withFilter(() => this.options.subscriptionAsyncIterator(action.name || action.methodName), function (playload: any, args: any, context: any, info: any) {
-                        const container = Container.of(this);
+                        const container = Container.of(that);
                         context.container = container;
+                        context.dataLoaders = {};
                         const executionResult = that.actionExecutor.executeControllerAction({
                             metadata: action,
                             request: undefined,
