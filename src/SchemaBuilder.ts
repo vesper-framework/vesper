@@ -260,8 +260,9 @@ export class SchemaBuilder {
                 const that = this;
                 resolvers[resolverType][action.name || action.methodName] = {
                     subscribe: withFilter(() => this.options.subscriptionAsyncIterator(action.name || action.methodName), function (playload: any, args: any, context: any, info: any) {
-                        const container = Container.of(this);
+                        const container = Container.of(that);
                         context.container = container;
+                        context.dataLoaders = {};
                         const executionResult = that.actionExecutor.executeControllerAction({
                             metadata: action,
                             request: undefined,
@@ -373,6 +374,14 @@ export class SchemaBuilder {
             resolvers[resolve.name][resolve.methodName] = (parent: any, args: any, context: any, info: any) => {
                 this.loggers.resolver(`model property "${resolve.name}.${resolve.methodName}"`);
 
+                let request: any = undefined;
+                let response: any = undefined;
+
+                try {
+                    request = context.container.get(CurrentRequest);
+                    response = context.container.get(CurrentResponse);
+                } catch (error) { }
+
                 if (resolve.dataLoader) {
 
                     if (!context.dataLoaders[resolve.name] || !context.dataLoaders[resolve.name][resolve.methodName]) {
@@ -382,9 +391,9 @@ export class SchemaBuilder {
                         context.dataLoaders[resolve.name][resolve.methodName] = new DataLoader((keys: { parent: any, args: any, context: any, info: any }[]) => {
                             const entities = keys.map(key => key.parent);
                             const result = this.actionExecutor.executeResolver({
+                                request,
+                                response,
                                 metadata: resolve,
-                                request: context.container.get(CurrentRequest),
-                                response: context.container.get(CurrentResponse),
                                 container: context.container,
                                 obj: entities,
                                 args: keys[0].args,
@@ -406,9 +415,9 @@ export class SchemaBuilder {
 
                 } else {
                     return this.actionExecutor.executeResolver({
+                        request,
+                        response,
                         metadata: resolve,
-                        request: context.container.get(CurrentRequest),
-                        response: context.container.get(CurrentResponse),
                         container: context.container,
                         obj: parent,
                         args: args,
