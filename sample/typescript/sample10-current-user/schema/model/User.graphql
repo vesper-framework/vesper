@@ -1,4 +1,4 @@
-type Photo {
+type User {
     id: Int
     firstName: String
     lastName: String
