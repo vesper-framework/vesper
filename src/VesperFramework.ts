@@ -98,7 +98,7 @@ export class VesperFramework {
                 const hasSubscriptions = getMetadataArgsStorage().actions.filter(action => action.type === "subscription");
                 if (hasSubscriptions) {
                     new SubscriptionServer(
-                        { execute: execute as any, subscribe, schema },
+                        { execute: execute as any, subscribe, schema, ...(this.options.subscriptionServerOptions || {}) },
                         { server: this.server, path: "/subscriptions" }
                     );
                 }

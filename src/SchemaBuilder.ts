@@ -260,28 +260,32 @@ export class SchemaBuilder {
                 const that = this;
                 resolvers[resolverType][action.name || action.methodName] = {
                     subscribe: withFilter(() => this.options.subscriptionAsyncIterator(action.name || action.methodName), function (playload: any, args: any, context: any, info: any) {
-                        const container = Container.of(this);
-                        context.container = container;
-                        const executionResult = that.actionExecutor.executeControllerAction({
-                            metadata: action,
-                            request: undefined,
-                            response: undefined,
-                            container: container,
-                            obj: playload,
-                            args: args,
-                            context: context,
-                            info: info
-                        });
-                        if (executionResult instanceof Promise) {
-                            return executionResult.then(result => {
-                                if (result === undefined)
-                                    return true;
-                                return result;
+                        try {
+                            const container = Container.of(this);
+                            context.container = container;
+                            const executionResult = that.actionExecutor.executeControllerAction({
+                                metadata: action,
+                                request: undefined,
+                                response: undefined,
+                                container: container,
+                                obj: playload,
+                                args: args,
+                                context: context,
+                                info: info
                             });
-                        } else {
-                            if (executionResult === undefined)
-                                return true;
-                            return executionResult;
+                            if (executionResult instanceof Promise) {
+                                return executionResult.then(result => {
+                                    if (result === undefined)
+                                        return true;
+                                    return result;
+                                }).catch(error => console.error(error));
+                            } else {
+                                if (executionResult === undefined)
+                                    return true;
+                                return executionResult;
+                            }
+                        } catch (error) {
+                            console.error(error)
                         }
                     })
                 };

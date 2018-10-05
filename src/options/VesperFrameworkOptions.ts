@@ -56,4 +56,8 @@ export interface VesperFrameworkOptions extends SchemaBuilderOptions {
      */
     cors?: boolean|CorsOptions;
 
+    /**
+     * Options to be passed
+     */
+    subscriptionServerOptions?: any;
 }
