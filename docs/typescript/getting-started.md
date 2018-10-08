@@ -134,12 +134,12 @@ Previously we added 4 root GraphQL queries:
 * `postDelete(id: Int): Boolean`
 
 Logic that will handle those queries must be defined inside controller.
-Create a new controller inside `src/controller/PostController.ts` file:
+Create a new controller inside `src/schema/controller/PostController.ts` file:
 
 ```typescript
 import {Controller, Query, Mutation} from "vesper";
 import {EntityManager} from "typeorm";
-import {Post} from "../entity/Post";
+import {Post} from "../../entity/Post";
 
 @Controller()
 export class PostController {
@@ -214,7 +214,7 @@ Now we only need to bootstrap our Vesper application. Let's create a `src/index.
 
 ```typescript
 import {bootstrap} from "vesper";
-import {PostController} from "./controller/PostController"; 
+import {PostController} from "./schema/controller/PostController"; 
 import {Post} from "./entity/Post"; 
 
 bootstrap({
