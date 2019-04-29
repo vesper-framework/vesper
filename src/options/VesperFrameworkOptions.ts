@@ -40,6 +40,18 @@ export interface VesperFrameworkOptions extends SchemaBuilderOptions {
     graphIQLRoute?: string|boolean;
 
     /**
+     * Route used for subscriptions.
+     * By default is equal to "/subscriptions".
+     */
+    subscriptionsRoute?: string;
+
+    /**
+     * Domain used for GraphiQL/playground subscriptions.
+     * By default is equal to "localhost:<port>".
+     */
+    subscriptionsDomain?: string;
+
+    /**
      * Route used for GraphQL playground.
      * This is an alternative to GraphiQL.
      * By default route equal to "/playground".

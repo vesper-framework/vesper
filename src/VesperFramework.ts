@@ -95,11 +95,13 @@ export class VesperFramework {
                     return fail(err);
 
                 // register the WebSocket for handling GraphQL subscriptions
+                const subscriptionsRoute = this.options.subscriptionsRoute || "/subscriptions";
+                const subscriptionsDomain = this.options.subscriptionsDomain || `localhost:${this.options.port}`;
                 const hasSubscriptions = getMetadataArgsStorage().actions.filter(action => action.type === "subscription");
                 if (hasSubscriptions) {
                     new SubscriptionServer(
                         { execute: execute as any, subscribe, schema },
-                        { server: this.server, path: "/subscriptions" }
+                        { server: this.server, path: subscriptionsRoute }
                     );
                 }
 
@@ -108,7 +110,7 @@ export class VesperFramework {
                     const graphIQLRoute = (this.options.graphIQLRoute && typeof this.options.graphIQLRoute === "string") ? this.options.graphIQLRoute : "/graphiql";
                     const graphIOptions: any = { endpointURL: graphQLRoute };
                     if (hasSubscriptions)
-                        graphIOptions.subscriptionsEndpoint = `ws://localhost:${this.options.port}/subscriptions`;
+                        graphIOptions.subscriptionsEndpoint = `wss://${subscriptionsDomain}${subscriptionsRoute}`;
                     this.application.use(graphIQLRoute, graphiqlExpress(graphIOptions));
                 }
 
@@ -119,7 +121,7 @@ export class VesperFramework {
                     const playgroundRoute = (this.options.playground && typeof this.options.playground === "string") ? this.options.playground : "/playground";
                     const graphIOptions: any = { endpoint: graphQLRoute };
                     if (hasSubscriptions)
-                        graphIOptions.subscriptionsEndpoint = `ws://localhost:${this.options.port}/subscriptions`;
+                        graphIOptions.subscriptionsEndpoint = `wss://${subscriptionsDomain}${subscriptionsRoute}`;
                     this.application.use(playgroundRoute, expressPlayground(graphIOptions));
                 }
 
