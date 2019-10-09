@@ -169,8 +169,14 @@ export class PostController {
     // serves "postDelete(id: Int): Boolean" requests
     @Mutation()
     async postDelete({ id }) {
-        await this.entityManager.remove(Post, { id: id });
-        return true;
+        const post = await this.entityManager.findOne(Post, id);
+        if (post) {
+            await this.entityManager.remove(post);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 }
