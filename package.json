@@ -59,10 +59,10 @@
   },
   "devDependencies": {
     "del": "^3.0.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-typescript": "^4.0.2",
-    "gulpclass": "^0.1.2",
+    "gulpclass": "^0.2.0",
     "sqlite3": "^4.0.0",
     "ts-node": "^5.0.1",
     "typescript": "^2.8.1"
